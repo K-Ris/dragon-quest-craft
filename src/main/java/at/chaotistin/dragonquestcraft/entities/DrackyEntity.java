@@ -36,43 +36,38 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
 
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(DrackyEntity.class, DataSerializers.FLOAT);
 
-    public float flap;
-    public float flapSpeed;
-    public float oFlapSpeed;
-    public float oFlap;
-    public float flapping = 1.0F;
-
     public DrackyEntity(EntityType<? extends DrackyEntity> type, World worldIn) {
         super(type, worldIn);
-    }
-
-    public boolean isFlying() {
-        return !this.onGround;
+        this.setTamed(false);
     }
 
     @Override
     protected void registerGoals(){
         this.sitGoal = new SitGoal(this);
-        this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(1, new SwimGoal(this));
         this.goalSelector.addGoal(2, this.sitGoal);
-        this.goalSelector.addGoal(2, new FollowOwnerFlyingGoal(this, 1.0D, 5.0F, 1.0F));
-        this.goalSelector.addGoal(2, new WaterAvoidingRandomFlyingGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new FollowMobGoal(this, 1.0D, 3.0F, 7.0F));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 2.0d, false));
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.6d));
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
     }
 
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
         this.getAttributes().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue((double)0.3F);
         this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue((double)0.4F);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue((double)0.2F);
+        if (this.isTamed()) {
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
+        } else {
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
+        }
+
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
     }
 
-    /**
-     * Returns new PathNavigateGround instance
-     */
     protected PathNavigator createNavigator(World worldIn) {
         FlyingPathNavigator flyingpathnavigator = new FlyingPathNavigator(this, worldIn);
         flyingpathnavigator.setCanOpenDoors(false);
@@ -140,55 +135,6 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
         return super.processInteract(player, hand);
     }
 
-    public void livingTick() {
-
-        super.livingTick();
-        this.calculateFlapping();
-    }
-
-    public boolean canBePushed() {
-        return true;
-    }
-
-    protected void collideWithEntity(Entity entityIn) {
-        if (!(entityIn instanceof PlayerEntity)) {
-            super.collideWithEntity(entityIn);
-        }
-    }
-
-    public boolean isBreedingItem(ItemStack stack) {
-        return false;
-    }
-
-    public static boolean func_223317_c(EntityType<ParrotEntity> p_223317_0_, IWorld p_223317_1_, SpawnReason p_223317_2_, BlockPos p_223317_3_, Random p_223317_4_) {
-        Block block = p_223317_1_.getBlockState(p_223317_3_.down()).getBlock();
-        return (block.isIn(BlockTags.LEAVES) || block == Blocks.GRASS_BLOCK || block instanceof LogBlock || block == Blocks.AIR) && p_223317_1_.getLightSubtracted(p_223317_3_, 0) > 8;
-    }
-
-    public void fall(float distance, float damageMultiplier) {
-    }
-
-    protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
-    }
-
-    private void calculateFlapping() {
-        this.oFlap = this.flap;
-        this.oFlapSpeed = this.flapSpeed;
-        this.flapSpeed = (float)((double)this.flapSpeed + (double)(!this.onGround && !this.isPassenger() ? 4 : -1) * 0.3D);
-        this.flapSpeed = MathHelper.clamp(this.flapSpeed, 0.0F, 1.0F);
-        if (!this.onGround && this.flapping < 1.0F) {
-            this.flapping = 1.0F;
-        }
-
-        this.flapping = (float)((double)this.flapping * 0.9D);
-        Vec3d vec3d = this.getMotion();
-        if (!this.onGround && vec3d.y < 0.0D) {
-            this.setMotion(vec3d.mul(1.0D, 0.6D, 1.0D));
-        }
-
-        this.flap += this.flapping * 2.0F;
-    }
-
     public void setTamed(boolean tamed) {
         super.setTamed(tamed);
         if (tamed) {
@@ -198,5 +144,9 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
         }
 
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+    }
+
+    public boolean isFlying() {
+        return !this.onGround;
     }
 }

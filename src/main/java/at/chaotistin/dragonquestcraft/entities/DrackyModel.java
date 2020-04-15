@@ -100,129 +100,34 @@ public class DrackyModel extends EntityModel<DrackyEntity> {
         RendererModel.rotateAngleZ = z;
     }
 
-    public void setLivingAnimations(DrackyEntity entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
-        this.func_217160_a(func_217158_a(entityIn));
-    }
+    public void setLivingAnimations(PlatypunkEntity entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
 
-    private void func_217162_a(DrackyModel.State p_217162_1_, int p_217162_2_, float p_217162_3_, float p_217162_4_, float p_217162_5_, float p_217162_6_, float p_217162_7_) {
-        this.body.rotateAngleX = p_217162_7_ * ((float)Math.PI / 180F);
-        this.body.rotateAngleY = p_217162_6_ * ((float)Math.PI / 180F);
-        this.body.rotateAngleZ = 0.0F;
-        this.body.rotationPointX = 0.0F;
-        this.body.rotationPointX = 0.0F;
-        this.tail.rotationPointX = 0.0F;
-        this.wing_right.rotationPointX = -1.5F;
-        this.wing_left.rotationPointX = 1.5F;
-        switch(p_217162_1_) {
-            case SITTING:
-                break;
-            case PARTY:
-                float f = MathHelper.cos((float)p_217162_2_);
-                float f1 = MathHelper.sin((float)p_217162_2_);
-                this.body.rotationPointX = f;
-                this.body.rotationPointY = 15.69F + f1;
-                this.body.rotateAngleX = 0.0F;
-                this.body.rotateAngleY = 0.0F;
-                this.body.rotateAngleZ = MathHelper.sin((float)p_217162_2_) * 0.4F;
-                this.body.rotationPointX = f;
-                this.body.rotationPointY = 16.5F + f1;
-                this.wing_left.rotateAngleZ = -0.0873F - p_217162_5_;
-                this.wing_left.rotationPointX = 1.5F + f;
-                this.wing_left.rotationPointY = 16.94F + f1;
-                this.wing_right.rotateAngleZ = 0.0873F + p_217162_5_;
-                this.wing_right.rotationPointX = -1.5F + f;
-                this.wing_right.rotationPointY = 16.94F + f1;
-                this.tail.rotationPointX = f;
-                this.tail.rotationPointY = 21.07F + f1;
-                break;
-            case STANDING:
-                this.leg_left.rotateAngleX += MathHelper.cos(p_217162_3_ * 0.6662F) * 1.4F * p_217162_4_;
-                this.wing_right.rotateAngleX += MathHelper.cos(p_217162_3_ * 0.6662F + (float)Math.PI) * 1.4F * p_217162_4_;
-            case FLYING:
-            case ON_SHOULDER:
-            default:
-                float f2 = p_217162_5_ * 0.3F;
-                this.body.rotationPointY = 15.69F + f2;
-                this.tail.rotateAngleX = 1.015F + MathHelper.cos(p_217162_3_ * 0.6662F) * 0.3F * p_217162_4_;
-                this.tail.rotationPointY = 21.07F + f2;
-                this.body.rotationPointY = 16.5F + f2;
-                this.wing_left.rotateAngleZ = -0.0873F - p_217162_5_;
-                this.wing_left.rotationPointY = 16.94F + f2;
-                this.wing_right.rotateAngleZ = 0.0873F + p_217162_5_;
-                this.wing_right.rotationPointY = 16.94F + f2;
-                this.leg_left.rotationPointY = 22.0F + f2;
-                this.wing_right.rotationPointY = 22.0F + f2;
+        if (entityIn.isSitting()) {
+            setRotationAngle(leg_left, 0.0F, -0.8727F, 0.0F);
+            setRotationAngle(wing_left, -0.5236F, 2.269F, -0.6981F);
+            setRotationAngle(leg_right, 0.0F, 0.8727F, 0.0F);
+            setRotationAngle(wing_right, -0.5236F, -2.2689F, 0.6981F);
         }
-
-    }
-
-    private void func_217159_a(float p_217159_1_) {
-        this.body.render(p_217159_1_);
-        this.wing_left.render(p_217159_1_);
-        this.wing_right.render(p_217159_1_);
-        this.tail.render(p_217159_1_);
-        this.body.render(p_217159_1_);
-        this.leg_left.render(p_217159_1_);
-        this.leg_right.render(p_217159_1_);
-    }
-
-    private void func_217160_a(DrackyModel.State p_217160_1_) {
-        //this.feather.rotateAngleX = -0.2214F;
-        this.body.rotateAngleX = 0.4937F;
-        this.wing_left.rotateAngleX = -0.6981F;
-        this.wing_left.rotateAngleY = -(float)Math.PI;
-        this.wing_right.rotateAngleX = -0.6981F;
-        this.wing_right.rotateAngleY = -(float)Math.PI;
-        this.leg_left.rotateAngleX = -0.0299F;
-        this.wing_right.rotateAngleX = -0.0299F;
-        this.leg_left.rotationPointY = 22.0F;
-        this.wing_right.rotationPointY = 22.0F;
-        this.leg_left.rotateAngleZ = 0.0F;
-        this.wing_right.rotateAngleZ = 0.0F;
-        switch(p_217160_1_) {
-            case SITTING:
-                float f = 1.9F;
-                this.body.rotationPointY = 17.59F;
-                this.tail.rotateAngleX = 1.5388988F;
-                this.tail.rotationPointY = 22.97F;
-                this.body.rotationPointY = 18.4F;
-                this.wing_left.rotateAngleZ = -0.0873F;
-                this.wing_left.rotationPointY = 18.84F;
-                this.wing_right.rotateAngleZ = 0.0873F;
-                this.wing_right.rotationPointY = 18.84F;
-                ++this.leg_left.rotationPointY;
-                ++this.wing_right.rotationPointY;
-                ++this.leg_left.rotateAngleX;
-                ++this.wing_right.rotateAngleX;
-                break;
-            case PARTY:
-                this.leg_left.rotateAngleZ = -0.34906584F;
-                this.wing_right.rotateAngleZ = 0.34906584F;
-            case STANDING:
-            case ON_SHOULDER:
-            default:
-                break;
-            case FLYING:
-                this.leg_left.rotateAngleX += 0.6981317F;
-                this.wing_right.rotateAngleX += 0.6981317F;
-        }
-
-    }
-
-    private static DrackyModel.State func_217158_a(DrackyEntity p_217158_0_) {
-        if (p_217158_0_.isSitting()) {
-            return DrackyModel.State.SITTING;
-        } else {
-            return p_217158_0_.isFlying() ? DrackyModel.State.FLYING : DrackyModel.State.STANDING;
+        else{
+            setRotationAngle(leg_left, 0.0F, 0F, 0.0F);
+            setRotationAngle(wing_left, 0.0F, 0.8727F, 0.8727F);
+            setRotationAngle(wing_right, 0.0F, -0.9599F, -0.8727F);
+            setRotationAngle(leg_right, 0F, 0F, 0F);
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static enum State {
-        FLYING,
-        STANDING,
-        SITTING,
-        PARTY,
-        ON_SHOULDER;
+    @Override
+    public void setRotationAngles(DrackyEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        this.body.rotateAngleX = headPitch * ((float)Math.PI / 180F);
+        this.body.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
+        //this.main.rotateAngleX = ((float)Math.PI / 2F);
+        this.leg_left.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        this.leg_right.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+        this.wing_left.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.0F * limbSwingAmount;
+        this.wing_right.rotateAngleZ = (MathHelper.cos(limbSwing * 0.6662F) * 1.0F * limbSwingAmount)*(-1);
+    }
+
+    public RendererModel getHead() {
+        return this.body;
     }
 }

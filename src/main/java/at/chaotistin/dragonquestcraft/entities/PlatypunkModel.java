@@ -118,8 +118,8 @@ public class PlatypunkModel extends EntityModel<PlatypunkEntity> {
         //this.main.rotateAngleX = ((float)Math.PI / 2F);
         this.leg_left.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.leg_right.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-        this.arm_left.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.0F * limbSwingAmount;
-        this.arm_right.rotateAngleZ = (MathHelper.cos(limbSwing * 0.6662F) * 1.0F * limbSwingAmount)*(-1);
+        this.arm_left.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.0F * limbSwingAmount;
+        this.arm_right.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.0F * limbSwingAmount;
     }
 
     public RendererModel getHead() {
