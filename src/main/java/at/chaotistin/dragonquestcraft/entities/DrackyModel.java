@@ -1,11 +1,9 @@
 package at.chaotistin.dragonquestcraft.entities;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ParrotModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.client.renderer.model.ModelBox;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -102,7 +100,11 @@ public class DrackyModel extends EntityModel<DrackyEntity> {
         RendererModel.rotateAngleZ = z;
     }
 
-    private void func_217162_a(ParrotModel.State p_217162_1_, int p_217162_2_, float p_217162_3_, float p_217162_4_, float p_217162_5_, float p_217162_6_, float p_217162_7_) {
+    public void setLivingAnimations(DrackyEntity entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
+        this.func_217160_a(func_217158_a(entityIn));
+    }
+
+    private void func_217162_a(DrackyModel.State p_217162_1_, int p_217162_2_, float p_217162_3_, float p_217162_4_, float p_217162_5_, float p_217162_6_, float p_217162_7_) {
         this.body.rotateAngleX = p_217162_7_ * ((float)Math.PI / 180F);
         this.body.rotateAngleY = p_217162_6_ * ((float)Math.PI / 180F);
         this.body.rotateAngleZ = 0.0F;
@@ -154,7 +156,17 @@ public class DrackyModel extends EntityModel<DrackyEntity> {
 
     }
 
-    private void func_217160_a(ParrotModel.State p_217160_1_) {
+    private void func_217159_a(float p_217159_1_) {
+        this.body.render(p_217159_1_);
+        this.wing_left.render(p_217159_1_);
+        this.wing_right.render(p_217159_1_);
+        this.tail.render(p_217159_1_);
+        this.body.render(p_217159_1_);
+        this.leg_left.render(p_217159_1_);
+        this.leg_right.render(p_217159_1_);
+    }
+
+    private void func_217160_a(DrackyModel.State p_217160_1_) {
         //this.feather.rotateAngleX = -0.2214F;
         this.body.rotateAngleX = 0.4937F;
         this.wing_left.rotateAngleX = -0.6981F;
@@ -197,13 +209,11 @@ public class DrackyModel extends EntityModel<DrackyEntity> {
 
     }
 
-    private static ParrotModel.State func_217158_a(ParrotEntity p_217158_0_) {
-        if (p_217158_0_.isPartying()) {
-            return ParrotModel.State.PARTY;
-        } else if (p_217158_0_.isSitting()) {
-            return ParrotModel.State.SITTING;
+    private static DrackyModel.State func_217158_a(DrackyEntity p_217158_0_) {
+        if (p_217158_0_.isSitting()) {
+            return DrackyModel.State.SITTING;
         } else {
-            return p_217158_0_.isFlying() ? ParrotModel.State.FLYING : ParrotModel.State.STANDING;
+            return p_217158_0_.isFlying() ? DrackyModel.State.FLYING : DrackyModel.State.STANDING;
         }
     }
 
