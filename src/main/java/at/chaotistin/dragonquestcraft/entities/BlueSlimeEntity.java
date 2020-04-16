@@ -36,9 +36,7 @@ public class BlueSlimeEntity extends TameableEntity implements IMob {
         this.goalSelector.addGoal(2, this.sitGoal);
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 2.0d, false));
         this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
-        //this.goalSelector.addGoal(2, new SlimeEntity.AttackGoal(this));
-        //this.goalSelector.addGoal(3, new SlimeEntity.FaceRandomGoal(this));
-        this.goalSelector.addGoal(5, new BlueSlimeEntity.HopGoal(this));
+        this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.6d));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
     }
@@ -122,88 +120,5 @@ public class BlueSlimeEntity extends TameableEntity implements IMob {
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
     }
 
-
-    protected int getJumpDelay() {
-        return this.rand.nextInt(20) + 10;
-    }
-
-    static class HopGoal extends Goal {
-        private final BlueSlimeEntity slime;
-
-        public HopGoal(BlueSlimeEntity slimeIn) {
-            this.slime = slimeIn;
-            this.setMutexFlags(EnumSet.of(Goal.Flag.JUMP, Goal.Flag.MOVE));
-        }
-
-        /**
-         * Returns whether the EntityAIBase should begin execution.
-         */
-        public boolean shouldExecute() {
-            return !this.slime.isPassenger();
-        }
-
-        /**
-         * Keep ticking a continuous task that has already been started
-         */
-        public void tick() {
-            //((BlueSlimeEntity.MoveHelperController)this.slime.getMoveHelper()).setSpeed(1.0D);
-        }
-
-    }
-
-    static class MoveHelperController extends MovementController {
-        private float yRot;
-        private int jumpDelay;
-        private final BlueSlimeEntity slime;
-        private boolean isAggressive;
-
-        public MoveHelperController(BlueSlimeEntity slimeIn) {
-            super(slimeIn);
-            this.slime = slimeIn;
-            this.yRot = 180.0F * slimeIn.rotationYaw / (float)Math.PI;
-        }
-
-        public void setDirection(float yRotIn, boolean aggressive) {
-            this.yRot = yRotIn;
-            this.isAggressive = aggressive;
-        }
-
-        public void setSpeed(double speedIn) {
-            this.speed = speedIn;
-            this.action = MovementController.Action.MOVE_TO;
-        }
-
-        public void tick() {
-            this.mob.rotationYaw = this.limitAngle(this.mob.rotationYaw, this.yRot, 90.0F);
-            this.mob.rotationYawHead = this.mob.rotationYaw;
-            this.mob.renderYawOffset = this.mob.rotationYaw;
-            if (this.action != MovementController.Action.MOVE_TO) {
-                this.mob.setMoveForward(0.0F);
-            } else {
-                this.action = MovementController.Action.WAIT;
-                if (this.mob.onGround) {
-                    this.mob.setAIMoveSpeed((float)(this.speed * this.mob.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue()));
-                    if (this.jumpDelay-- <= 0) {
-                        this.jumpDelay = this.slime.getJumpDelay();
-                        if (this.isAggressive) {
-                            this.jumpDelay /= 3;
-                        }
-
-                        this.slime.getJumpController().setJumping();
-//                        if (this.slime.makesSoundOnJump()) {
-//                            this.slime.playSound(this.slime.getJumpSound(), this.slime.getSoundVolume(), ((this.slime.getRNG().nextFloat() - this.slime.getRNG().nextFloat()) * 0.2F + 1.0F) * 0.8F);
-//                        }
-                    } else {
-                        this.slime.moveStrafing = 0.0F;
-                        this.slime.moveForward = 0.0F;
-                        this.mob.setAIMoveSpeed(0.0F);
-                    }
-                } else {
-                    this.mob.setAIMoveSpeed((float)(this.speed * this.mob.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue()));
-                }
-
-            }
-        }
-    }
 
 }
