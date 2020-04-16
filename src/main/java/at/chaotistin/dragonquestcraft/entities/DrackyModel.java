@@ -94,12 +94,14 @@ public class DrackyModel extends EntityModel<DrackyEntity> {
         leg_right.render(f5);
         leg_left.render(f5);
     }
+
     public void setRotationAngle(RendererModel RendererModel, float x, float y, float z) {
         RendererModel.rotateAngleX = x;
         RendererModel.rotateAngleY = y;
         RendererModel.rotateAngleZ = z;
     }
 
+    @Override
     public void setLivingAnimations(DrackyEntity entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
 
         if (entityIn.isSitting()) {

@@ -3,6 +3,7 @@ package at.chaotistin.dragonquestcraft.entities;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.client.renderer.model.ModelBox;
+import net.minecraft.util.math.MathHelper;
 
 public class BlueSlimeModel extends EntityModel<BlueSlimeEntity> {
     private final RendererModel body;
@@ -36,4 +37,28 @@ public class BlueSlimeModel extends EntityModel<BlueSlimeEntity> {
         RendererModel.rotateAngleY = y;
         RendererModel.rotateAngleZ = z;
     }
+
+    public void setLivingAnimations(BlueSlimeEntity entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
+
+        if (entityIn.isSitting()) {
+            setRotationAngle(antena, 0.0F, -0.8727F, 0.0F);
+        }
+        else{
+            setRotationAngle(antena, 0.0F, 0F, 0.0F);
+        }
+    }
+
+    @Override
+    public void setRotationAngles(BlueSlimeEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        this.antena.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        float offset = MathHelper.cos((limbSwing * 0.6662F) * 1.2F) * limbSwingAmount;
+        if(offset < 0f)
+            this.body.offsetY = offset;
+        else{
+            offset = offset * (-1f);
+            this.body.offsetY = offset;
+        }
+    }
+
+
 }
