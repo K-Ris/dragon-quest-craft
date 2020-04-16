@@ -24,7 +24,7 @@ public class BlueslimeEggItem  extends Item {
         super(new Properties()
                 .maxStackSize(1)
                 .group(ModSetup.itemGroup));
-        setRegistryName("bluslime_egg");
+        setRegistryName("blueslime_egg");
     }
 
     /**
