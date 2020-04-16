@@ -122,6 +122,7 @@ public class PlatypunkModel extends EntityModel<PlatypunkEntity> {
         this.arm_right.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.0F * limbSwingAmount;
     }
 
+
     public RendererModel getHead() {
         return this.head;
     }

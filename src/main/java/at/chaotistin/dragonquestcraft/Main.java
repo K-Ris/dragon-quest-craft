@@ -1,5 +1,6 @@
 package at.chaotistin.dragonquestcraft;
 
+import at.chaotistin.dragonquestcraft.items.spawneggs.BlueslimeEggItem;
 import at.chaotistin.dragonquestcraft.items.spawneggs.DrackyEggItem;
 import at.chaotistin.dragonquestcraft.items.spawneggs.PlatypunkEggItem;
 import at.chaotistin.dragonquestcraft.proxy.ClientProxy;
@@ -68,11 +69,13 @@ public class Main
                     .group(ModSetup.itemGroup);
             event.getRegistry().register(new PlatypunkEggItem());
             event.getRegistry().register(new DrackyEggItem());
+            event.getRegistry().register(new BlueslimeEggItem());
         }
         @SubscribeEvent
         public static void onEntityRegistry(final RegistryEvent.Register<EntityType<?>> event) {
             event.getRegistry().register(MobEntities.PLATYPUNK);
             event.getRegistry().register(MobEntities.DRACKY);
+            event.getRegistry().register(MobEntities.BLUESLIME);
         }
     }
 }

@@ -3,7 +3,9 @@
 
   "item.dragonquestcraft.platypunk_egg": "Platypunk Egg",
   "item.dragonquestcraft.dracky_egg": "Dracky Egg",
+  "item.dragonquestcraft.blueslime_egg": "Slime Egg",
 
   "entity.dragonquestcraft.platypunk": "Platypunk",
-  "entity.dragonquestcraft.dracky": "Dracky"
+  "entity.dragonquestcraft.dracky": "Dracky",
+  "entity.dragonquestcraft.blueslime": "Slime"
 }

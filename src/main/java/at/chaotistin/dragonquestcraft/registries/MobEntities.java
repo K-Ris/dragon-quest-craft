@@ -1,6 +1,7 @@
 package at.chaotistin.dragonquestcraft.registries;
 
 import at.chaotistin.dragonquestcraft.Main;
+import at.chaotistin.dragonquestcraft.entities.BlueSlimeEntity;
 import at.chaotistin.dragonquestcraft.entities.DrackyEntity;
 import at.chaotistin.dragonquestcraft.entities.PlatypunkEntity;
 import net.minecraft.entity.EntityClassification;
@@ -23,6 +24,12 @@ public class MobEntities {
             .setShouldReceiveVelocityUpdates(false)
             .build("dracky")
             .setRegistryName(Main.MODID, "dracky");
+    @ObjectHolder("dragonquestcraft:blueslime")
+    public static EntityType<?> BLUESLIME = EntityType.Builder.create(BlueSlimeEntity::new, EntityClassification.CREATURE)
+            .size(1, 1)
+            .setShouldReceiveVelocityUpdates(false)
+            .build("blueslime")
+            .setRegistryName(Main.MODID, "blueslime");
 
 
 }
