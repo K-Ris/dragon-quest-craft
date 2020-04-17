@@ -76,6 +76,8 @@ public class Main
             event.getRegistry().register(new PlatypunkEggItem());
             event.getRegistry().register(new DrackyEggItem());
             event.getRegistry().register(new BlueslimeEggItem());
+
+            MobEntities.registerEntityWorldSpawns();
         }
         @SubscribeEvent
         public static void onEntityRegistry(final RegistryEvent.Register<EntityType<?>> event) {
