@@ -8,7 +8,8 @@ import net.minecraft.util.ResourceLocation;
 import javax.annotation.Nullable;
 
 public class BlueSlimeRenderer extends MobRenderer<BlueSlimeEntity, BlueSlimeModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/entity/blueslime.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/entity/blueslime-wild.png");
+    private static final ResourceLocation TEXTURE_TAMED = new ResourceLocation(Main.MODID, "textures/entity/blueslime.png");
 
     public BlueSlimeRenderer(EntityRendererManager manager) {
         super(manager, new BlueSlimeModel(), 0.5f); //0.5f = shadow size
@@ -17,6 +18,10 @@ public class BlueSlimeRenderer extends MobRenderer<BlueSlimeEntity, BlueSlimeMod
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(BlueSlimeEntity entity) {
-        return TEXTURE;
+        if (entity.isTamed()) {
+            return TEXTURE_TAMED;
+        } else {
+            return TEXTURE;
+        }
     }
 }

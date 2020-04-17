@@ -14,7 +14,8 @@ import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class DrackyRenderer extends MobRenderer<DrackyEntity, DrackyModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/entity/dracky.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/entity/dracky-wild.png");
+    private static final ResourceLocation TEXTURE_TAMED = new ResourceLocation(Main.MODID, "textures/entity/dracky.png");
 
     public DrackyRenderer(EntityRendererManager manager) {
         super(manager, new DrackyModel(), 0.5f); //0.5f = shadow size
@@ -23,6 +24,10 @@ public class DrackyRenderer extends MobRenderer<DrackyEntity, DrackyModel> {
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(DrackyEntity entity) {
-        return TEXTURE;
+        if (entity.isTamed()) {
+            return TEXTURE_TAMED;
+        } else {
+            return TEXTURE;
+        }
     }
 }
