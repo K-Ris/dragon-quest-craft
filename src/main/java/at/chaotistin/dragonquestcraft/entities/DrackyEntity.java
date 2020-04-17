@@ -21,7 +21,10 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -54,13 +57,28 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
     @Override
     protected void registerGoals(){
         this.sitGoal = new SitGoal(this);
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.addGoal(2, this.sitGoal);
-        this.goalSelector.addGoal(2, new FollowOwnerFlyingGoal(this, 2.0D, 5.0F, 1.0F));
-        this.goalSelector.addGoal(2, new WaterAvoidingRandomFlyingGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new FollowMobGoal(this, 1.0D, 3.0F, 7.0F));
+        this.goalSelector.addGoal(0, new PanicGoal(this, 1.5D));
+        this.goalSelector.addGoal(1, this.sitGoal);
+        this.goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.5d, true));
+        this.goalSelector.addGoal(4, new FollowOwnerFlyingGoal(this, 2.0D, 5.0F, 1.0F));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomFlyingGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(7, new FollowMobGoal(this, 1.0D, 3.0F, 7.0F));
+        this.goalSelector.addGoal(7, new FollowMobGoal(this, 1.0D, 3.0F, 7.0F));
+        this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
+        this.targetSelector.addGoal(3, (new HurtByTargetGoal(this)).setCallsForHelp());
+    }
+
+    protected void updateAITasks() {
+        this.dataManager.set(DATA_HEALTH_ID, this.getHealth());
+    }
+
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(DATA_HEALTH_ID, this.getHealth());
     }
 
     @Override
@@ -130,7 +148,7 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity)null);
             }
-        } else if (item == Items.BONE) {
+        } else if (item == Items.PORKCHOP || item == Items.MUTTON || item == Items.CHICKEN || item == Items.BEEF) {
             if (!player.abilities.isCreativeMode) {
                 itemstack.shrink(1);
             }
@@ -147,6 +165,7 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
                 } else {
                     this.playTameEffect(false);
                     this.world.setEntityState(this, (byte)6);
+                    this.setAttackTarget(player);
                 }
             }
 
@@ -169,5 +188,17 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
 
     public boolean isFlying() {
         return !this.onGround;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.ENTITY_BAT_AMBIENT;
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundEvents.ENTITY_BAT_HURT;
+    }
+
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.ENTITY_BAT_DEATH;
     }
 }

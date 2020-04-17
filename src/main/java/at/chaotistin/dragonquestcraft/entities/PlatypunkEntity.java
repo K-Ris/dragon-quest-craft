@@ -1,11 +1,15 @@
 package at.chaotistin.dragonquestcraft.entities;
 
+import at.chaotistin.dragonquestcraft.registries.SoundsHandler;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.monster.ZombieEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,7 +17,10 @@ import net.minecraft.item.Items;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -31,13 +38,26 @@ public class PlatypunkEntity extends TameableEntity {
     @Override
     protected void registerGoals(){
         this.sitGoal = new SitGoal(this);
-        this.goalSelector.addGoal(1, new SwimGoal(this));
-        this.goalSelector.addGoal(2, this.sitGoal);
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 2.0d, false));
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
-        this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.6d));
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, this.sitGoal);
+        this.goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.5d, true));
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.5D, 5.0F, 2.0F));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.6d));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
+        this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
+        this.targetSelector.addGoal(3, (new HurtByTargetGoal(this)).setCallsForHelp());
+    }
+
+    protected void updateAITasks() {
+        this.dataManager.set(DATA_HEALTH_ID, this.getHealth());
+    }
+
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(DATA_HEALTH_ID, this.getHealth());
     }
 
     @Override
@@ -82,7 +102,7 @@ public class PlatypunkEntity extends TameableEntity {
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity)null);
             }
-        } else if (item == Items.BONE) {
+        } else if (item == Items.PORKCHOP || item == Items.MUTTON || item == Items.CHICKEN || item == Items.BEEF) {
             if (!player.abilities.isCreativeMode) {
                 itemstack.shrink(1);
             }
@@ -99,6 +119,7 @@ public class PlatypunkEntity extends TameableEntity {
                 } else {
                     this.playTameEffect(false);
                     this.world.setEntityState(this, (byte)6);
+                    this.setAttackTarget(player);
                 }
             }
 
@@ -118,4 +139,17 @@ public class PlatypunkEntity extends TameableEntity {
 
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
     }
+
+    protected SoundEvent getAmbientSound() {
+        return SoundsHandler.ENTITY_PLATYPUNK_AMBIENT;
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundsHandler.ENTITY_PLATYPUNK_HURT;
+    }
+
+    protected SoundEvent getDeathSound() {
+        return SoundsHandler.ENTITY_PLATYPUNK_DEATH;
+    }
+
 }

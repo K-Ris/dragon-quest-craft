@@ -1,0 +1,20 @@
+{
+  "entity.platypunk.ambient":
+  {
+    "category": "entity",
+    "subtitle": "entity.platypunk.ambient",
+    "sounds": [{"name": "dragonquestcraft:entity/platypunk/ambient", "stream": true}]
+  },
+  "entity.platypunk.hurt":
+  {
+    "category": "entity",
+    "subtitle": "entity.platypunk.hurt",
+    "sounds": [{"name": "dragonquestcraft:entity/platypunk/hurt", "stream": true}]
+  },
+  "entity.platypunk.death":
+  {
+    "category": "entity",
+    "subtitle": "entity.platypunk.death",
+    "sounds": [{"name": "dragonquestcraft:entity/platypunk/death", "stream": true}]
+  }
+}

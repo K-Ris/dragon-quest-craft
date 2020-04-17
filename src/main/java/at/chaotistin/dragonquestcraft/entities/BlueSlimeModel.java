@@ -50,7 +50,7 @@ public class BlueSlimeModel extends EntityModel<BlueSlimeEntity> {
 
     @Override
     public void setRotationAngles(BlueSlimeEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-        this.antena.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        this.antena.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.0F * limbSwingAmount;
         float offset = MathHelper.cos((limbSwing * 0.6662F) * 1.2F) * limbSwingAmount;
         if(offset < 0f)
             this.body.offsetY = offset;

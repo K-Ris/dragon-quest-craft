@@ -7,11 +7,13 @@ import at.chaotistin.dragonquestcraft.proxy.ClientProxy;
 import at.chaotistin.dragonquestcraft.proxy.IProxy;
 import at.chaotistin.dragonquestcraft.proxy.ServerProxy;
 import at.chaotistin.dragonquestcraft.registries.MobEntities;
+import at.chaotistin.dragonquestcraft.registries.SoundsHandler;
 import at.chaotistin.dragonquestcraft.setup.ModSetup;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -63,6 +65,10 @@ public class Main
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
+        @SubscribeEvent
+        public static void onSoundsRegistry(final RegistryEvent.Register<SoundEvent> event){
+            SoundsHandler.registerSounds();
+        }
         @SubscribeEvent
         public static void onItemsRegistry(final RegistryEvent.Register<Item> event) {
             Item.Properties properties = new Item.Properties()
