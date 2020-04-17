@@ -111,10 +111,10 @@ public class DrackyModel extends EntityModel<DrackyEntity> {
             setRotationAngle(leg_right, 0F, 0F, 0F);
         }
         else if(entityIn.isFlying()){
-            setRotationAngle(leg_left, 0.0F, -0.8727F, 0.0F);
-            setRotationAngle(wing_left, -0.5236F, 2.269F, -0.6981F);
-            setRotationAngle(leg_right, 0.0F, 0.8727F, 0.0F);
-            setRotationAngle(wing_right, -0.5236F, -2.2689F, 0.6981F);
+            setRotationAngle(leg_left, 0.0F, -0F, 0.0F);
+            setRotationAngle(wing_left, 6F, 2.269F, -0.6981F);
+            setRotationAngle(leg_right, 0.0F, 0F, 0.0F);
+            setRotationAngle(wing_right, -6F, -2.2689F, 0.6981F);
         }
         else{
             setRotationAngle(leg_left, 0.0F, -0.8727F, 0.0F);
@@ -128,7 +128,7 @@ public class DrackyModel extends EntityModel<DrackyEntity> {
     @Override
     public void setRotationAngles(DrackyEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         this.body.rotateAngleX = headPitch * ((float)Math.PI / 300f);
-        this.body.rotateAngleY = netHeadYaw * ((float)Math.PI / 300f);
+        //this.body.rotateAngleY = netHeadYaw * ((float)Math.PI / 300f);
         //this.main.rotateAngleX = ((float)Math.PI / 2F);
         this.leg_left.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.leg_right.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
