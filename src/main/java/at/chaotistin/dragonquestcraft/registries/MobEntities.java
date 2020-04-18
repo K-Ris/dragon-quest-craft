@@ -7,12 +7,15 @@ import at.chaotistin.dragonquestcraft.entities.PlatypunkEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.registries.ObjectHolder;
 
+@SuppressWarnings("unchecked")
 public class MobEntities {
     @ObjectHolder("dragonquestcraft:platypunk")
     public static EntityType<?> PLATYPUNK = EntityType.Builder.create(PlatypunkEntity::new, EntityClassification.CREATURE)
@@ -22,13 +25,13 @@ public class MobEntities {
             .setRegistryName(Main.MODID, "platypunk");
 
     @ObjectHolder("dragonquestcraft:dracky")
-    public static EntityType<?> DRACKY = EntityType.Builder.create(DrackyEntity::new, EntityClassification.CREATURE)
+    public static EntityType<DrackyEntity> DRACKY = (EntityType<DrackyEntity>) EntityType.Builder.create(DrackyEntity::new, EntityClassification.CREATURE)
             .size(1, 1)
             .setShouldReceiveVelocityUpdates(false)
             .build("dracky")
             .setRegistryName(Main.MODID, "dracky");
     @ObjectHolder("dragonquestcraft:blueslime")
-    public static EntityType<?> BLUESLIME = EntityType.Builder.create(BlueSlimeEntity::new, EntityClassification.CREATURE)
+    public static EntityType<BlueSlimeEntity> BLUESLIME = (EntityType<BlueSlimeEntity>) EntityType.Builder.create(BlueSlimeEntity::new, EntityClassification.CREATURE)
             .size(1, 1)
             .setShouldReceiveVelocityUpdates(false)
             .build("blueslime")
@@ -38,6 +41,9 @@ public class MobEntities {
         registerEntityWorldSpawn(PLATYPUNK, Biomes.FOREST, Biomes.RIVER, Biomes.WOODED_HILLS );
         registerEntityWorldSpawn(DRACKY, Biomes.FOREST, Biomes.WOODED_HILLS, Biomes.MOUNTAINS);
         registerEntityWorldSpawn(BLUESLIME, Biomes.PLAINS, Biomes.WOODED_HILLS);
+
+        EntitySpawnPlacementRegistry.register(DRACKY, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DrackyEntity::func_223325_c);
+
     }
 
     private static void registerEntityWorldSpawn(EntityType<?> entity, Biome... biomes){
