@@ -1,14 +1,10 @@
 package at.chaotistin.dragonquestcraft.entities;
 
-import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
-import at.chaotistin.dragonquestcraft.registries.MobEntities;
 import at.chaotistin.dragonquestcraft.registries.SoundsHandler;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -20,17 +16,16 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class PlatypunkEntity extends TameableEntity {
+public class BullBirdEntity  extends TameableEntity {
 
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(PlatypunkEntity.class, DataSerializers.FLOAT);
 
-    public PlatypunkEntity(EntityType<? extends PlatypunkEntity> type, World worldIn) {
+    public BullBirdEntity(EntityType<? extends BullBirdEntity> type, World worldIn) {
         super(type, worldIn);
         this.setTamed(false);
         this.recalculateSize();
@@ -44,8 +39,7 @@ public class PlatypunkEntity extends TameableEntity {
         this.goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.5d, true));
         this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.5D, 5.0F, 2.0F));
-        this.goalSelector.addGoal(5, new CustomBreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.6d));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.6d));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
@@ -137,43 +131,33 @@ public class PlatypunkEntity extends TameableEntity {
     }
 
     public boolean canMateWith(AnimalEntity otherAnimal) {
-        //System.out.println("other Animal " + otherAnimal.getDisplayName());
-        LOGGER.warn("Platypunk Mate, other Animal " + otherAnimal);
         if (otherAnimal == this) {
             return false;
         } else if (!this.isTamed()) {
             return false;
-        } else if ((otherAnimal instanceof DrackyEntity)) {
-            DrackyEntity drackyentity = (DrackyEntity)otherAnimal;
-            if(!drackyentity.isTamed()){
-                return false;
-            }
-            else if (drackyentity.isSitting()){
-                return false;
-            }
-            else{
-                return this.isInLove() && drackyentity.isInLove();
-            }
-        }else{
+        } else if ((otherAnimal instanceof WolfEntity)) {
             return false;
+        } else {
+            WolfEntity wolfentity = (WolfEntity)otherAnimal;
+            if (!wolfentity.isTamed()) {
+                return false;
+            } else if (wolfentity.isSitting()) {
+                return false;
+            } else {
+                return this.isInLove() && wolfentity.isInLove();
+            }
         }
     }
 
-    public AnimalEntity createChild(AgeableEntity ageable) {
-        BullBirdEntity bullbirdentity = MobEntities.BULLBIRD.create(this.world);
+    public WolfEntity createChild(AgeableEntity ageable) {
+        WolfEntity wolfentity = EntityType.WOLF.create(this.world);
         UUID uuid = this.getOwnerId();
         if (uuid != null) {
-            bullbirdentity.setOwnerId(uuid);
-            bullbirdentity.setTamed(true);
+            wolfentity.setOwnerId(uuid);
+            wolfentity.setTamed(true);
         }
 
-        return bullbirdentity;
-    }
-
-    public boolean isBreedingItem(ItemStack stack) {
-        Item item = stack.getItem();
-        //return item.isFood() && item.getFood().isMeat();
-        return stack.getItem() == Items.WHEAT;
+        return wolfentity;
     }
 
     protected SoundEvent getAmbientSound() {
@@ -187,5 +171,4 @@ public class PlatypunkEntity extends TameableEntity {
     protected SoundEvent getDeathSound() {
         return SoundsHandler.ENTITY_PLATYPUNK_DEATH;
     }
-
 }

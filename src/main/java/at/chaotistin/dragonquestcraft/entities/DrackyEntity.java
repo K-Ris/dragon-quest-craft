@@ -1,5 +1,8 @@
 package at.chaotistin.dragonquestcraft.entities;
 
+import at.chaotistin.dragonquestcraft.Main;
+import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
+import at.chaotistin.dragonquestcraft.registries.MobEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -31,9 +34,11 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nullable;
 import java.util.Random;
+import java.util.UUID;
 
 public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
 
@@ -61,8 +66,9 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
         this.goalSelector.addGoal(1, this.sitGoal);
         this.goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.5d, true));
-        this.goalSelector.addGoal(4, new FollowOwnerFlyingGoal(this, 2.0D, 5.0F, 1.0F));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomFlyingGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 5.0F, 1.0F));
+        this.goalSelector.addGoal(5, new CustomBreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(7, new FollowMobGoal(this, 1.0D, 3.0F, 7.0F));
         this.goalSelector.addGoal(7, new FollowMobGoal(this, 1.0D, 3.0F, 7.0F));
@@ -95,22 +101,16 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
     }
 
-    protected PathNavigator createNavigator(World worldIn) {
-        FlyingPathNavigator flyingpathnavigator = new FlyingPathNavigator(this, worldIn);
-        flyingpathnavigator.setCanOpenDoors(false);
-        flyingpathnavigator.setCanSwim(true);
-        flyingpathnavigator.setCanEnterDoors(true);
-        return flyingpathnavigator;
-    }
+//    protected PathNavigator createNavigator(World worldIn) {
+//        FlyingPathNavigator flyingpathnavigator = new FlyingPathNavigator(this, worldIn);
+//        flyingpathnavigator.setCanOpenDoors(false);
+//        flyingpathnavigator.setCanSwim(true);
+//        flyingpathnavigator.setCanEnterDoors(true);
+//        return flyingpathnavigator;
+//    }
 
     protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
         return sizeIn.height * 0.6F;
-    }
-
-    @Nullable
-    @Override
-    public AgeableEntity createChild(AgeableEntity ageable) {
-        return null;
     }
 
     public static boolean func_223317_c(EntityType<ParrotEntity> p_223317_0_, IWorld p_223317_1_, SpawnReason p_223317_2_, BlockPos p_223317_3_, Random p_223317_4_) {
@@ -183,6 +183,46 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
         }
 
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+    }
+
+    public boolean canMateWith(AnimalEntity otherAnimal) {
+        //System.out.println("other Animal" + otherAnimal.getDisplayName());
+        LOGGER.error("Dracky Mate, other Animal" + otherAnimal);
+        if (otherAnimal == this) {
+            return false;
+        } else if (!this.isTamed()) {
+            return false;
+        } else if ((otherAnimal instanceof PlatypunkEntity)) {
+            PlatypunkEntity platypunkEntity = (PlatypunkEntity)otherAnimal;
+            if(!platypunkEntity.isTamed()){
+                return false;
+            }
+            else if (platypunkEntity.isSitting()){
+                return false;
+            }
+            else{
+                return this.isInLove() && platypunkEntity.isInLove();
+            }
+        }else{
+            return false;
+        }
+    }
+
+    public AnimalEntity createChild(AgeableEntity ageable) {
+        BullBirdEntity bullbirdentity = MobEntities.BULLBIRD.create(this.world);
+        UUID uuid = this.getOwnerId();
+        if (uuid != null) {
+            bullbirdentity.setOwnerId(uuid);
+            bullbirdentity.setTamed(true);
+        }
+
+        return bullbirdentity;
+    }
+
+    public boolean isBreedingItem(ItemStack stack) {
+        Item item = stack.getItem();
+        //return item.isFood() && item.getFood().isMeat();
+        return stack.getItem() == Items.WHEAT;
     }
 
     public boolean isFlying() {

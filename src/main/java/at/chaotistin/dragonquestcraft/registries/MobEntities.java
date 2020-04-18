@@ -2,6 +2,7 @@ package at.chaotistin.dragonquestcraft.registries;
 
 import at.chaotistin.dragonquestcraft.Main;
 import at.chaotistin.dragonquestcraft.entities.BlueSlimeEntity;
+import at.chaotistin.dragonquestcraft.entities.BullBirdEntity;
 import at.chaotistin.dragonquestcraft.entities.DrackyEntity;
 import at.chaotistin.dragonquestcraft.entities.PlatypunkEntity;
 import net.minecraft.entity.EntityClassification;
@@ -18,7 +19,7 @@ import net.minecraftforge.registries.ObjectHolder;
 @SuppressWarnings("unchecked")
 public class MobEntities {
     @ObjectHolder("dragonquestcraft:platypunk")
-    public static EntityType<?> PLATYPUNK = EntityType.Builder.create(PlatypunkEntity::new, EntityClassification.CREATURE)
+    public static EntityType<PlatypunkEntity> PLATYPUNK = (EntityType<PlatypunkEntity>) EntityType.Builder.create(PlatypunkEntity::new, EntityClassification.CREATURE)
             .size(1, 1)
             .setShouldReceiveVelocityUpdates(false)
             .build("platypunk")
@@ -36,6 +37,12 @@ public class MobEntities {
             .setShouldReceiveVelocityUpdates(false)
             .build("blueslime")
             .setRegistryName(Main.MODID, "blueslime");
+    @ObjectHolder("dragonquestcraft:bullbird")
+    public static EntityType<BullBirdEntity> BULLBIRD = (EntityType<BullBirdEntity>) EntityType.Builder.create(BullBirdEntity::new, EntityClassification.CREATURE)
+            .size(1, 1)
+            .setShouldReceiveVelocityUpdates(false)
+            .build("bullbird")
+            .setRegistryName(Main.MODID, "bullbird");
 
     public static void registerEntityWorldSpawns(){
         registerEntityWorldSpawn(PLATYPUNK, Biomes.FOREST, Biomes.RIVER, Biomes.WOODED_HILLS );
