@@ -34,12 +34,14 @@ public class BreedingManager {
         return babyEntity;
     }
 
-    private static CustomTameableEntity getChildMonster(CustomTameableEntity daddy, CustomTameableEntity mommy){
+    private static CustomTameableEntity getChildMonster(CustomTameableEntity mommy, CustomTameableEntity daddy){
 
         CustomTameableEntity child = MobEntities.BLUESLIME.create(mommy.world);
 
         Main.LOGGER.warn("Daddy Name: " + daddy.getName());
         Main.LOGGER.warn("Mommy Name: " + mommy.getName());
+        Main.LOGGER.warn("Mommy Species: " + mommy.entitySpecies);
+        Main.LOGGER.warn("Daddy Species: " + daddy.entitySpecies);
 
         //Child is Beast -----------------------------------------------------------------------------------------------
         if(mommy.entitySpecies == CustomTameableEntity.EntitySpecies.BEAST){
@@ -51,6 +53,7 @@ public class BreedingManager {
             }
             else if(daddy.entitySpecies == CustomTameableEntity.EntitySpecies.BIRD){
                 //Child is Catfly
+                child = MobEntities.CATFLY.create(mommy.world);
 
             }
             else if(daddy.entitySpecies == CustomTameableEntity.EntitySpecies.SLIME){

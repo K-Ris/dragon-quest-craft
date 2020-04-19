@@ -13,6 +13,8 @@ import net.minecraft.block.LogBlock;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.controller.FlyingMovementController;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -191,19 +193,13 @@ public class DrackyEntity extends CustomTameableEntity implements IFlyingAnimal,
     }
 
     public AnimalEntity createChild(AgeableEntity ageable) {
-        this.world.setEntityState(super.breedingPartner, (byte)3);
-        this.world.setEntityState(this, (byte)3);
-
-        return BreedingManager.spawnMonsterChild(this, breedingPartner);
+        AnimalEntity cte = BreedingManager.spawnMonsterChild(this, breedingPartner);
+        super.afterBreeding(breedingPartner);
+        return cte;
     }
 
     public boolean isBreedingItem(ItemStack stack) {
         return super.isBreedingItem(stack);
-    }
-
-    public void afterBreeding(){
-        this.world.setEntityState(this, (byte)3);
-
     }
 
     public boolean isFlying() {

@@ -1,10 +1,7 @@
 package at.chaotistin.dragonquestcraft.registries;
 
 import at.chaotistin.dragonquestcraft.Main;
-import at.chaotistin.dragonquestcraft.entities.BlueSlimeEntity;
-import at.chaotistin.dragonquestcraft.entities.BullBirdEntity;
-import at.chaotistin.dragonquestcraft.entities.DrackyEntity;
-import at.chaotistin.dragonquestcraft.entities.PlatypunkEntity;
+import at.chaotistin.dragonquestcraft.entities.*;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
@@ -43,6 +40,13 @@ public class MobEntities {
             .setShouldReceiveVelocityUpdates(false)
             .build("bullbird")
             .setRegistryName(Main.MODID, "bullbird");
+    @ObjectHolder("dragonquestcraft:catfly")
+    public static EntityType<CatflyEntity> CATFLY = (EntityType<CatflyEntity>) EntityType.Builder.create(CatflyEntity::new, EntityClassification.CREATURE)
+            .size(1, 1)
+            .setShouldReceiveVelocityUpdates(false)
+            .build("catfly")
+            .setRegistryName(Main.MODID, "catfly");
+
 
     public static void registerEntityWorldSpawns(){
         registerEntityWorldSpawn(PLATYPUNK, Biomes.FOREST, Biomes.RIVER, Biomes.WOODED_HILLS );

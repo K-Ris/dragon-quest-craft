@@ -7,5 +7,7 @@
 
   "entity.dragonquestcraft.platypunk": "Platypunk",
   "entity.dragonquestcraft.dracky": "Dracky",
-  "entity.dragonquestcraft.blueslime": "Slime"
+  "entity.dragonquestcraft.blueslime": "Slime",
+
+  "death.attack.dragonquestcraft.breedingmsg":"%1$s quietly left..."
 }

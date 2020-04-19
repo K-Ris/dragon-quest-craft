@@ -4,6 +4,7 @@ import at.chaotistin.dragonquestcraft.entities.BullBirdEntity;
 import at.chaotistin.dragonquestcraft.entities.PlatypunkEntity;
 import at.chaotistin.dragonquestcraft.registries.MobEntities;
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.TameableEntity;
@@ -56,8 +57,12 @@ public class CustomTameableEntity extends TameableEntity implements DragonQuestM
         return stack.getItem() == Items.WHEAT;
     }
 
-    public void afterBreeding(){
-        this.world.setEntityState(this, (byte)3);
+    public void afterBreeding(CustomTameableEntity other){
+//        if (net.minecraftforge.common.ForgeHooks.onLivingDeath(this, cause)) return;
+//        if (net.minecraftforge.common.ForgeHooks.onLivingDeath(this, cause)) return;
+        this.onDeath(CustomDamageSource.BREEDING_MSG);
+        other.onDeath(CustomDamageSource.BREEDING_MSG);
+
 
     }
 

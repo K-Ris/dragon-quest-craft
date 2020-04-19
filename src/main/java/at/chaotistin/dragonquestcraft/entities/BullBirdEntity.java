@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class BullBirdEntity  extends CustomTameableEntity {
 
-    private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(PlatypunkEntity.class, DataSerializers.FLOAT);
+    private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(BullBirdEntity.class, DataSerializers.FLOAT);
 
     public BullBirdEntity(EntityType<? extends BullBirdEntity> type, World worldIn) {
         super(type, worldIn);
