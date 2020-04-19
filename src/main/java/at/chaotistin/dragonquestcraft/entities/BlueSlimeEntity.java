@@ -1,13 +1,10 @@
 package at.chaotistin.dragonquestcraft.entities;
 
+import at.chaotistin.dragonquestcraft.CustomTameableEntity;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,17 +16,11 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.EnumSet;
-import java.util.Random;
 
-public class BlueSlimeEntity extends TameableEntity implements IMob {
+public class BlueSlimeEntity extends CustomTameableEntity implements IMob {
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(BlueSlimeEntity.class, DataSerializers.FLOAT);
 
     public BlueSlimeEntity(EntityType<? extends BlueSlimeEntity> type, World worldIn) {
@@ -78,7 +69,7 @@ public class BlueSlimeEntity extends TameableEntity implements IMob {
 
     @Nullable
     @Override
-    public AgeableEntity createChild(AgeableEntity ageable) {
+    public AnimalEntity createChild(AgeableEntity ageable) {
         return null;
     }
 

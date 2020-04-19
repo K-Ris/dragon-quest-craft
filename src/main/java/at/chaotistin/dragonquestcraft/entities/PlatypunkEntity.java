@@ -1,5 +1,8 @@
 package at.chaotistin.dragonquestcraft.entities;
 
+import at.chaotistin.dragonquestcraft.BreedingManager;
+import at.chaotistin.dragonquestcraft.CustomTameableEntity;
+import at.chaotistin.dragonquestcraft.DragonQuestMonster;
 import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
 import at.chaotistin.dragonquestcraft.registries.MobEntities;
 import at.chaotistin.dragonquestcraft.registries.SoundsHandler;
@@ -24,16 +27,20 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.awt.event.FocusEvent;
 import java.util.UUID;
 
-public class PlatypunkEntity extends TameableEntity {
+public class PlatypunkEntity extends CustomTameableEntity implements DragonQuestMonster {
 
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(PlatypunkEntity.class, DataSerializers.FLOAT);
+
 
     public PlatypunkEntity(EntityType<? extends PlatypunkEntity> type, World worldIn) {
         super(type, worldIn);
         this.setTamed(false);
         this.recalculateSize();
+        this.entitySex = EntitySexes.getRandomSex();
+        this.entitySpecies = EntitySpecies.BEAST;
     }
 
     @Override
@@ -137,43 +144,23 @@ public class PlatypunkEntity extends TameableEntity {
     }
 
     public boolean canMateWith(AnimalEntity otherAnimal) {
-        //System.out.println("other Animal " + otherAnimal.getDisplayName());
-        LOGGER.warn("Platypunk Mate, other Animal " + otherAnimal);
-        if (otherAnimal == this) {
-            return false;
-        } else if (!this.isTamed()) {
-            return false;
-        } else if ((otherAnimal instanceof DrackyEntity)) {
-            DrackyEntity drackyentity = (DrackyEntity)otherAnimal;
-            if(!drackyentity.isTamed()){
-                return false;
-            }
-            else if (drackyentity.isSitting()){
-                return false;
-            }
-            else{
-                return this.isInLove() && drackyentity.isInLove();
-            }
-        }else{
-            return false;
-        }
+        return super.canMateWith(otherAnimal);
     }
 
     public AnimalEntity createChild(AgeableEntity ageable) {
-        BullBirdEntity bullbirdentity = MobEntities.BULLBIRD.create(this.world);
-        UUID uuid = this.getOwnerId();
-        if (uuid != null) {
-            bullbirdentity.setOwnerId(uuid);
-            bullbirdentity.setTamed(true);
-        }
+        this.world.setEntityState(super.breedingPartner, (byte)3);
+        this.world.setEntityState(this, (byte)3);
 
-        return bullbirdentity;
+        return BreedingManager.spawnMonsterChild(this, breedingPartner);
     }
 
     public boolean isBreedingItem(ItemStack stack) {
-        Item item = stack.getItem();
-        //return item.isFood() && item.getFood().isMeat();
-        return stack.getItem() == Items.WHEAT;
+        return super.isBreedingItem(stack);
+    }
+
+    public void afterBreeding(){
+        this.world.setEntityState(this, (byte)3);
+
     }
 
     protected SoundEvent getAmbientSound() {

@@ -1,5 +1,8 @@
 package at.chaotistin.dragonquestcraft.entities;
 
+import at.chaotistin.dragonquestcraft.BreedingManager;
+import at.chaotistin.dragonquestcraft.CustomTameableEntity;
+import at.chaotistin.dragonquestcraft.DragonQuestMonster;
 import at.chaotistin.dragonquestcraft.Main;
 import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
 import at.chaotistin.dragonquestcraft.registries.MobEntities;
@@ -40,7 +43,7 @@ import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.UUID;
 
-public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
+public class DrackyEntity extends CustomTameableEntity implements IFlyingAnimal, DragonQuestMonster {
 
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(DrackyEntity.class, DataSerializers.FLOAT);
 
@@ -55,7 +58,9 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
     public DrackyEntity(EntityType<? extends DrackyEntity> type, World worldIn) {
         super(type, worldIn);
         this.setTamed(false);
+        this.entitySex = EntitySexes.getRandomSex();
         this.moveController = new FlyingMovementController(this);
+        this.entitySpecies = EntitySpecies.BIRD;
     }
 
     @Override
@@ -101,13 +106,13 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
     }
 
-//    protected PathNavigator createNavigator(World worldIn) {
-//        FlyingPathNavigator flyingpathnavigator = new FlyingPathNavigator(this, worldIn);
-//        flyingpathnavigator.setCanOpenDoors(false);
-//        flyingpathnavigator.setCanSwim(true);
-//        flyingpathnavigator.setCanEnterDoors(true);
-//        return flyingpathnavigator;
-//    }
+    protected PathNavigator createNavigator(World worldIn) {
+        FlyingPathNavigator flyingpathnavigator = new FlyingPathNavigator(this, worldIn);
+        flyingpathnavigator.setCanOpenDoors(false);
+        flyingpathnavigator.setCanSwim(true);
+        flyingpathnavigator.setCanEnterDoors(true);
+        return flyingpathnavigator;
+    }
 
     protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
         return sizeIn.height * 0.6F;
@@ -185,44 +190,20 @@ public class DrackyEntity extends TameableEntity implements IFlyingAnimal {
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
     }
 
-    public boolean canMateWith(AnimalEntity otherAnimal) {
-        //System.out.println("other Animal" + otherAnimal.getDisplayName());
-        LOGGER.error("Dracky Mate, other Animal" + otherAnimal);
-        if (otherAnimal == this) {
-            return false;
-        } else if (!this.isTamed()) {
-            return false;
-        } else if ((otherAnimal instanceof PlatypunkEntity)) {
-            PlatypunkEntity platypunkEntity = (PlatypunkEntity)otherAnimal;
-            if(!platypunkEntity.isTamed()){
-                return false;
-            }
-            else if (platypunkEntity.isSitting()){
-                return false;
-            }
-            else{
-                return this.isInLove() && platypunkEntity.isInLove();
-            }
-        }else{
-            return false;
-        }
-    }
-
     public AnimalEntity createChild(AgeableEntity ageable) {
-        BullBirdEntity bullbirdentity = MobEntities.BULLBIRD.create(this.world);
-        UUID uuid = this.getOwnerId();
-        if (uuid != null) {
-            bullbirdentity.setOwnerId(uuid);
-            bullbirdentity.setTamed(true);
-        }
+        this.world.setEntityState(super.breedingPartner, (byte)3);
+        this.world.setEntityState(this, (byte)3);
 
-        return bullbirdentity;
+        return BreedingManager.spawnMonsterChild(this, breedingPartner);
     }
 
     public boolean isBreedingItem(ItemStack stack) {
-        Item item = stack.getItem();
-        //return item.isFood() && item.getFood().isMeat();
-        return stack.getItem() == Items.WHEAT;
+        return super.isBreedingItem(stack);
+    }
+
+    public void afterBreeding(){
+        this.world.setEntityState(this, (byte)3);
+
     }
 
     public boolean isFlying() {

@@ -1,5 +1,6 @@
 package at.chaotistin.dragonquestcraft.entities;
 
+import at.chaotistin.dragonquestcraft.CustomTameableEntity;
 import at.chaotistin.dragonquestcraft.registries.SoundsHandler;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
@@ -21,7 +22,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class BullBirdEntity  extends TameableEntity {
+public class BullBirdEntity  extends CustomTameableEntity {
 
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(PlatypunkEntity.class, DataSerializers.FLOAT);
 
