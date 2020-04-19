@@ -49,10 +49,10 @@ public class PlatypunkEntity extends CustomTameableEntity implements DragonQuest
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, this.sitGoal);
         this.goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.5d, true));
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.5D, 5.0F, 2.0F));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.1d, true));
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
         this.goalSelector.addGoal(5, new CustomBreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.6d));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
@@ -76,7 +76,7 @@ public class PlatypunkEntity extends CustomTameableEntity implements DragonQuest
         if (this.isTamed()) {
             this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
         } else {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
         }
 
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);

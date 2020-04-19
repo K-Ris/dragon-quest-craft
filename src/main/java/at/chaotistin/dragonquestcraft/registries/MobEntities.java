@@ -36,7 +36,7 @@ public class MobEntities {
             .setRegistryName(Main.MODID, "blueslime");
     @ObjectHolder("dragonquestcraft:bullbird")
     public static EntityType<BullBirdEntity> BULLBIRD = (EntityType<BullBirdEntity>) EntityType.Builder.create(BullBirdEntity::new, EntityClassification.CREATURE)
-            .size(1, 1)
+            .size(3, 2)
             .setShouldReceiveVelocityUpdates(false)
             .build("bullbird")
             .setRegistryName(Main.MODID, "bullbird");

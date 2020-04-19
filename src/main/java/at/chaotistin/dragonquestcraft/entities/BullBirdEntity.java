@@ -38,10 +38,10 @@ public class BullBirdEntity  extends CustomTameableEntity {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, this.sitGoal);
         this.goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.5d, true));
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.5D, 5.0F, 2.0F));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.6d));
-        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0d, true));
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0d));
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 4.0F));
         this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
@@ -62,9 +62,9 @@ public class BullBirdEntity  extends CustomTameableEntity {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue((double)0.3F);
         if (this.isTamed()) {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
         } else {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
         }
 
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
