@@ -53,6 +53,9 @@ public class BreedingManager {
         else if(breedingResult == MonsterManager.EntityName.BULLBIRD){
             child = MobEntities.BULLBIRD.create(mommy.world);
         }
+        else if(breedingResult == MonsterManager.EntityName.CATFLY){
+            child = MobEntities.CATFLY.create(mommy.world);
+        }
 
         //Breeding Rules
         //- Same & Same = Same

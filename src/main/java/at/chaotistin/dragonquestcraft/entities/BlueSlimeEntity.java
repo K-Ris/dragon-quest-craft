@@ -28,6 +28,7 @@ public class BlueSlimeEntity extends CustomTameableEntity implements IMob {
         super(type, worldIn);
         this.setTamed(false);
         this.recalculateSize();
+        this.entitySex = EntitySexes.getRandomSex();
         this.entitySpecies = MonsterManager.EntitySpecies.SLIME;
         this.entityName = MonsterManager.EntityName.BLUESLIME;
     }
@@ -138,7 +139,8 @@ public class BlueSlimeEntity extends CustomTameableEntity implements IMob {
 
     public AnimalEntity createChild(AgeableEntity ageable) {
         AnimalEntity cte = BreedingManager.spawnMonsterChild(this, breedingPartner);
-        super.afterBreeding();
+        breedingPartner.afterBreeding();
+        this.afterBreeding();
         return cte;
     }
 

@@ -1,5 +1,6 @@
 package at.chaotistin.dragonquestcraft.entities;
 
+import at.chaotistin.dragonquestcraft.breeding.BreedingManager;
 import at.chaotistin.dragonquestcraft.breeding.CustomTameableEntity;
 import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
 import at.chaotistin.dragonquestcraft.registries.SoundsHandler;
@@ -29,8 +30,9 @@ public class BullBirdEntity  extends CustomTameableEntity {
         super(type, worldIn);
         this.setTamed(false);
         this.recalculateSize();
-        this.entitySpecies = MonsterManager.EntitySpecies.BIRD;
-        this.entityName = MonsterManager.EntityName.BULLBIRD;
+        this.entitySex = EntitySexes.getRandomSex();
+        this.entitySpecies = MonsterManager.EntitySpecies.SLIME;
+        this.entityName = MonsterManager.EntityName.BLUESLIME;
     }
 
     @Override
@@ -133,33 +135,18 @@ public class BullBirdEntity  extends CustomTameableEntity {
     }
 
     public boolean canMateWith(AnimalEntity otherAnimal) {
-        if (otherAnimal == this) {
-            return false;
-        } else if (!this.isTamed()) {
-            return false;
-        } else if ((otherAnimal instanceof WolfEntity)) {
-            return false;
-        } else {
-            WolfEntity wolfentity = (WolfEntity)otherAnimal;
-            if (!wolfentity.isTamed()) {
-                return false;
-            } else if (wolfentity.isSitting()) {
-                return false;
-            } else {
-                return this.isInLove() && wolfentity.isInLove();
-            }
-        }
+        return super.canMateWith(otherAnimal);
     }
 
-    public WolfEntity createChild(AgeableEntity ageable) {
-        WolfEntity wolfentity = EntityType.WOLF.create(this.world);
-        UUID uuid = this.getOwnerId();
-        if (uuid != null) {
-            wolfentity.setOwnerId(uuid);
-            wolfentity.setTamed(true);
-        }
+    public AnimalEntity createChild(AgeableEntity ageable) {
+        AnimalEntity cte = BreedingManager.spawnMonsterChild(this, breedingPartner);
+        breedingPartner.afterBreeding();
+        this.afterBreeding();
+        return cte;
+    }
 
-        return wolfentity;
+    public boolean isBreedingItem(ItemStack stack) {
+        return super.isBreedingItem(stack);
     }
 
     protected SoundEvent getAmbientSound() {

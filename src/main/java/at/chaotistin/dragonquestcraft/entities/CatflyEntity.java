@@ -50,10 +50,11 @@ public class CatflyEntity extends CustomTameableEntity implements IFlyingAnimal,
     public CatflyEntity(EntityType<? extends CatflyEntity> type, World worldIn) {
         super(type, worldIn);
         this.setTamed(false);
+        this.moveController = new FlyingMovementController(this);
         this.entitySex = EntitySexes.getRandomSex();
         this.moveController = new FlyingMovementController(this);
         this.entitySpecies = MonsterManager.EntitySpecies.BIRD;
-        this.entityName = MonsterManager.EntityName.CATFLY;
+        this.entityName = MonsterManager.EntityName.DRACKY;
     }
 
     @Override
@@ -186,10 +187,10 @@ public class CatflyEntity extends CustomTameableEntity implements IFlyingAnimal,
     }
 
     public AnimalEntity createChild(AgeableEntity ageable) {
-        this.world.setEntityState(super.breedingPartner, (byte)3);
-        this.world.setEntityState(this, (byte)3);
-
-        return BreedingManager.spawnMonsterChild(this, breedingPartner);
+        AnimalEntity cte = BreedingManager.spawnMonsterChild(this, breedingPartner);
+        breedingPartner.afterBreeding();
+        this.afterBreeding();
+        return cte;
     }
 
     public boolean isBreedingItem(ItemStack stack) {

@@ -1,5 +1,6 @@
 package at.chaotistin.dragonquestcraft.entities;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.client.renderer.model.ModelBox;
@@ -107,13 +108,31 @@ public class BullbirdModel extends EntityModel<BullBirdEntity> {
     }
 
     @Override
-    public void render(BullBirdEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        body.render(f5);
-        head.render(f5);
-        leg_left.render(f5);
-        leg_right.render(f5);
-        wing_right.render(f5);
-        wing_left.render(f5);
+    public void render(BullBirdEntity entity, float f0, float f1, float f2, float f3, float f4, float f5) {
+        if(this.isChild){
+            float f = 2.0F;
+            GlStateManager.pushMatrix();
+            GlStateManager.translatef(0.0F, 5.0F * f5, 6.0F * f5);
+            this.head.render(f5);
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+            GlStateManager.translatef(0.0F, 24.0F * f5, 0.0F);
+            this.body.render(f5);
+            leg_left.render(f5);
+            leg_right.render(f5);
+            wing_right.render(f5);
+            wing_left.render(f5);
+            GlStateManager.popMatrix();
+        }else{
+            body.render(f5);
+            head.render(f5);
+            leg_left.render(f5);
+            leg_right.render(f5);
+            wing_right.render(f5);
+            wing_left.render(f5);
+        }
+
     }
     public void setRotationAngle(RendererModel RendererModel, float x, float y, float z) {
         RendererModel.rotateAngleX = x;
