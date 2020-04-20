@@ -1,28 +1,25 @@
-package at.chaotistin.dragonquestcraft;
+package at.chaotistin.dragonquestcraft.breeding;
 
-import at.chaotistin.dragonquestcraft.entities.BullBirdEntity;
-import at.chaotistin.dragonquestcraft.entities.PlatypunkEntity;
-import at.chaotistin.dragonquestcraft.registries.MobEntities;
+import at.chaotistin.dragonquestcraft.CustomDamageSource;
+import at.chaotistin.dragonquestcraft.DragonQuestMonster;
 import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-import javax.swing.*;
 import java.util.Random;
-import java.util.UUID;
 
-public class CustomTameableEntity extends TameableEntity implements DragonQuestMonster{
+public class CustomTameableEntity extends TameableEntity implements DragonQuestMonster {
 
     public CustomTameableEntity breedingPartner;
     public EntitySexes entitySex = EntitySexes.FEMALE;
-    public EntitySpecies entitySpecies = EntitySpecies.BEAST;
+    public MonsterManager.EntitySpecies entitySpecies = MonsterManager.EntitySpecies.SLIME;
+    public MonsterManager.EntityName entityName = MonsterManager.EntityName.BLUESLIME;
 
 
     protected CustomTameableEntity(EntityType<? extends TameableEntity> type, World worldIn) {
@@ -46,8 +43,8 @@ public class CustomTameableEntity extends TameableEntity implements DragonQuestM
     }
 
     public AnimalEntity createChild(AgeableEntity ageable) {
-        this.world.setEntityState(this.breedingPartner, (byte)3);
-        this.world.setEntityState(this, (byte)3);
+//        this.world.setEntityState(this.breedingPartner, (byte)3);
+//        this.world.setEntityState(this, (byte)3);
 
         return BreedingManager.spawnMonsterChild(this, breedingPartner);
     }
@@ -57,13 +54,11 @@ public class CustomTameableEntity extends TameableEntity implements DragonQuestM
         return stack.getItem() == Items.WHEAT;
     }
 
-    public void afterBreeding(CustomTameableEntity other){
-//        if (net.minecraftforge.common.ForgeHooks.onLivingDeath(this, cause)) return;
-//        if (net.minecraftforge.common.ForgeHooks.onLivingDeath(this, cause)) return;
-        this.onDeath(CustomDamageSource.BREEDING_MSG);
-        other.onDeath(CustomDamageSource.BREEDING_MSG);
-
-
+    public void afterBreeding(){
+        if (!this.world.isRemote) {
+            this.world.setEntityState(this, (byte)3);
+            this.remove();
+        }
     }
 
     public static enum EntitySexes{
@@ -80,9 +75,4 @@ public class CustomTameableEntity extends TameableEntity implements DragonQuestM
         }
     }
 
-    public static enum EntitySpecies{
-        BEAST,
-        SLIME,
-        BIRD
-    }
 }

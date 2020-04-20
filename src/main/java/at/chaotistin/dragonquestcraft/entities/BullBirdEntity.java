@@ -1,11 +1,11 @@
 package at.chaotistin.dragonquestcraft.entities;
 
-import at.chaotistin.dragonquestcraft.CustomTameableEntity;
+import at.chaotistin.dragonquestcraft.breeding.CustomTameableEntity;
+import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
 import at.chaotistin.dragonquestcraft.registries.SoundsHandler;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -19,7 +19,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class BullBirdEntity  extends CustomTameableEntity {
@@ -30,6 +29,8 @@ public class BullBirdEntity  extends CustomTameableEntity {
         super(type, worldIn);
         this.setTamed(false);
         this.recalculateSize();
+        this.entitySpecies = MonsterManager.EntitySpecies.BIRD;
+        this.entityName = MonsterManager.EntityName.BULLBIRD;
     }
 
     @Override

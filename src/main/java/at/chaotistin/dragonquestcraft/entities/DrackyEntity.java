@@ -1,11 +1,11 @@
 package at.chaotistin.dragonquestcraft.entities;
 
-import at.chaotistin.dragonquestcraft.BreedingManager;
-import at.chaotistin.dragonquestcraft.CustomTameableEntity;
+import at.chaotistin.dragonquestcraft.CustomDamageSource;
+import at.chaotistin.dragonquestcraft.breeding.BreedingManager;
+import at.chaotistin.dragonquestcraft.breeding.CustomTameableEntity;
 import at.chaotistin.dragonquestcraft.DragonQuestMonster;
-import at.chaotistin.dragonquestcraft.Main;
+import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
 import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
-import at.chaotistin.dragonquestcraft.registries.MobEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -13,8 +13,6 @@ import net.minecraft.block.LogBlock;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.controller.FlyingMovementController;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.boss.WitherEntity;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -31,19 +29,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import org.apache.logging.log4j.Level;
 
-import javax.annotation.Nullable;
 import java.util.Random;
-import java.util.UUID;
 
 public class DrackyEntity extends CustomTameableEntity implements IFlyingAnimal, DragonQuestMonster {
 
@@ -62,7 +53,8 @@ public class DrackyEntity extends CustomTameableEntity implements IFlyingAnimal,
         this.setTamed(false);
         this.entitySex = EntitySexes.getRandomSex();
         this.moveController = new FlyingMovementController(this);
-        this.entitySpecies = EntitySpecies.BIRD;
+        this.entitySpecies = MonsterManager.EntitySpecies.BIRD;
+        this.entityName = MonsterManager.EntityName.DRACKY;
     }
 
     @Override
@@ -196,7 +188,8 @@ public class DrackyEntity extends CustomTameableEntity implements IFlyingAnimal,
 
     public AnimalEntity createChild(AgeableEntity ageable) {
         AnimalEntity cte = BreedingManager.spawnMonsterChild(this, breedingPartner);
-        super.afterBreeding(breedingPartner);
+        breedingPartner.afterBreeding();
+        this.afterBreeding();
         return cte;
     }
 

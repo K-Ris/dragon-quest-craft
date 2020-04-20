@@ -1,6 +1,9 @@
 package at.chaotistin.dragonquestcraft.entities;
 
-import at.chaotistin.dragonquestcraft.CustomTameableEntity;
+import at.chaotistin.dragonquestcraft.breeding.BreedingManager;
+import at.chaotistin.dragonquestcraft.breeding.CustomTameableEntity;
+import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
+import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.IMob;
@@ -18,8 +21,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 public class BlueSlimeEntity extends CustomTameableEntity implements IMob {
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(BlueSlimeEntity.class, DataSerializers.FLOAT);
 
@@ -27,6 +28,8 @@ public class BlueSlimeEntity extends CustomTameableEntity implements IMob {
         super(type, worldIn);
         this.setTamed(false);
         this.recalculateSize();
+        this.entitySpecies = MonsterManager.EntitySpecies.SLIME;
+        this.entityName = MonsterManager.EntityName.BLUESLIME;
     }
 
     @Override
@@ -37,6 +40,7 @@ public class BlueSlimeEntity extends CustomTameableEntity implements IMob {
         this.goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.6F));
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.5d, false));
         this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(5, new CustomBreedGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.4d));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
@@ -57,7 +61,7 @@ public class BlueSlimeEntity extends CustomTameableEntity implements IMob {
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue((double)0.2F);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue((double)0.3F);
         if (this.isTamed()) {
             this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
         } else {
@@ -65,12 +69,6 @@ public class BlueSlimeEntity extends CustomTameableEntity implements IMob {
         }
 
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
-    }
-
-    @Nullable
-    @Override
-    public AnimalEntity createChild(AgeableEntity ageable) {
-        return null;
     }
 
     public boolean processInteract(PlayerEntity player, Hand hand) {
@@ -132,6 +130,20 @@ public class BlueSlimeEntity extends CustomTameableEntity implements IMob {
         }
 
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+    }
+
+    public boolean canMateWith(AnimalEntity otherAnimal) {
+        return super.canMateWith(otherAnimal);
+    }
+
+    public AnimalEntity createChild(AgeableEntity ageable) {
+        AnimalEntity cte = BreedingManager.spawnMonsterChild(this, breedingPartner);
+        super.afterBreeding();
+        return cte;
+    }
+
+    public boolean isBreedingItem(ItemStack stack) {
+        return super.isBreedingItem(stack);
     }
 
     protected SoundEvent getAmbientSound() {

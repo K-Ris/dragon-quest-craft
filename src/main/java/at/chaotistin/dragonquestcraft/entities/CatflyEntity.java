@@ -1,8 +1,9 @@
 package at.chaotistin.dragonquestcraft.entities;
 
-import at.chaotistin.dragonquestcraft.BreedingManager;
-import at.chaotistin.dragonquestcraft.CustomTameableEntity;
+import at.chaotistin.dragonquestcraft.breeding.BreedingManager;
+import at.chaotistin.dragonquestcraft.breeding.CustomTameableEntity;
 import at.chaotistin.dragonquestcraft.DragonQuestMonster;
+import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
 import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -29,9 +30,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -53,7 +52,8 @@ public class CatflyEntity extends CustomTameableEntity implements IFlyingAnimal,
         this.setTamed(false);
         this.entitySex = EntitySexes.getRandomSex();
         this.moveController = new FlyingMovementController(this);
-        this.entitySpecies = EntitySpecies.BIRD;
+        this.entitySpecies = MonsterManager.EntitySpecies.BIRD;
+        this.entityName = MonsterManager.EntityName.CATFLY;
     }
 
     @Override

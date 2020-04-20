@@ -1,18 +1,15 @@
 package at.chaotistin.dragonquestcraft.entities;
 
-import at.chaotistin.dragonquestcraft.BreedingManager;
-import at.chaotistin.dragonquestcraft.CustomTameableEntity;
+import at.chaotistin.dragonquestcraft.CustomDamageSource;
+import at.chaotistin.dragonquestcraft.breeding.BreedingManager;
+import at.chaotistin.dragonquestcraft.breeding.CustomTameableEntity;
 import at.chaotistin.dragonquestcraft.DragonQuestMonster;
+import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
 import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
-import at.chaotistin.dragonquestcraft.registries.MobEntities;
 import at.chaotistin.dragonquestcraft.registries.SoundsHandler;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.passive.TurtleEntity;
-import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,12 +20,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
-import java.awt.event.FocusEvent;
-import java.util.UUID;
 
 public class PlatypunkEntity extends CustomTameableEntity implements DragonQuestMonster {
 
@@ -40,7 +32,8 @@ public class PlatypunkEntity extends CustomTameableEntity implements DragonQuest
         this.setTamed(false);
         this.recalculateSize();
         this.entitySex = EntitySexes.getRandomSex();
-        this.entitySpecies = EntitySpecies.BEAST;
+        this.entitySpecies = MonsterManager.EntitySpecies.BEAST;
+        this.entityName = MonsterManager.EntityName.PLATYPUNK;
     }
 
     @Override
@@ -149,7 +142,8 @@ public class PlatypunkEntity extends CustomTameableEntity implements DragonQuest
 
     public AnimalEntity createChild(AgeableEntity ageable) {
         AnimalEntity cte = BreedingManager.spawnMonsterChild(this, breedingPartner);
-        super.afterBreeding(breedingPartner);
+        breedingPartner.afterBreeding();
+        this.afterBreeding();
         return cte;
     }
 

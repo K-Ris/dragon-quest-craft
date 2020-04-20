@@ -1,5 +1,6 @@
 package at.chaotistin.dragonquestcraft;
 
+import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
 import at.chaotistin.dragonquestcraft.items.spawneggs.BlueslimeEggItem;
 import at.chaotistin.dragonquestcraft.items.spawneggs.DrackyEggItem;
 import at.chaotistin.dragonquestcraft.items.spawneggs.PlatypunkEggItem;
@@ -39,6 +40,8 @@ public class Main
 
     public static final String MODID = "dragonquestcraft";
 
+    public static MonsterManager mm = new MonsterManager();
+
     public static ModSetup setup = new ModSetup();
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
@@ -61,6 +64,8 @@ public class Main
     {
         setup.init();
         proxy.init();
+
+        mm.init();
     }
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
