@@ -1,5 +1,6 @@
 package at.chaotistin.dragonquestcraft.entities;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.client.renderer.model.ModelBox;
@@ -87,12 +88,31 @@ public class DrackyModel extends EntityModel<DrackyEntity> {
     }
 
     @Override
-    public void render(DrackyEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        body.render(f5);
-        wing_right.render(f5);
-        wing_left.render(f5);
-        leg_right.render(f5);
-        leg_left.render(f5);
+    public void render(DrackyEntity entity, float f0, float f1, float f2, float f3, float f4, float f5) {
+        if(this.isChild){
+            float f = 2.0F;
+            GlStateManager.pushMatrix();
+            GlStateManager.scalef(0.8F, 0.8F, 0.8F);
+            GlStateManager.translatef(0.0F, 8.0F * f5, 2.0F * f5);
+            body.render(f5);
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+            GlStateManager.translatef(0.0F, 24.0F * f5, 0.0F);
+
+            wing_right.render(f5);
+            wing_left.render(f5);
+            leg_right.render(f5);
+            leg_left.render(f5);
+            GlStateManager.popMatrix();
+        }
+        else{
+            body.render(f5);
+            wing_right.render(f5);
+            wing_left.render(f5);
+            leg_right.render(f5);
+            leg_left.render(f5);
+        }
     }
 
     public void setRotationAngle(RendererModel RendererModel, float x, float y, float z) {
