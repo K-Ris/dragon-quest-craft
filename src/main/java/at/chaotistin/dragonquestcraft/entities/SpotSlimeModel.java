@@ -3,6 +3,7 @@ package at.chaotistin.dragonquestcraft.entities;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.client.renderer.model.ModelBox;
+import net.minecraft.util.math.MathHelper;
 
 public class SpotSlimeModel extends EntityModel<SpotSlimeEntity> {
     private final RendererModel body;
@@ -49,5 +50,29 @@ public class SpotSlimeModel extends EntityModel<SpotSlimeEntity> {
         RendererModel.rotateAngleX = x;
         RendererModel.rotateAngleY = y;
         RendererModel.rotateAngleZ = z;
+    }
+
+    public void setLivingAnimations(SpotSlimeEntity entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
+
+        if (entityIn.isSitting()) {
+            setRotationAngle(antena, 0.0f, 0.0F, -0.8727F);
+        }
+        else{
+            setRotationAngle(antena, 0.0F, 0F, 0.0F);
+        }
+    }
+
+    @Override
+    public void setRotationAngles(SpotSlimeEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        this.antena.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.0F * limbSwingAmount;
+        float offset = MathHelper.cos((limbSwing * 0.6662F) * 1.2F) * limbSwingAmount;
+//        this.ear_left.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * 1.0F * limbSwingAmount;
+//        this.ear_right.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * 1.0F * limbSwingAmount;
+        if(offset < 0f)
+            this.body.offsetY = offset;
+        else{
+            offset = offset * (-1f);
+            this.body.offsetY = offset;
+        }
     }
 }

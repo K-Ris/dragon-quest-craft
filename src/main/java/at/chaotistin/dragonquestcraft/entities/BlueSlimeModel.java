@@ -52,7 +52,7 @@ public class BlueSlimeModel extends EntityModel<BlueSlimeEntity> {
     public void setLivingAnimations(BlueSlimeEntity entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
 
         if (entityIn.isSitting()) {
-            setRotationAngle(antena, 0.0F, -0.8727F, 0.0F);
+            setRotationAngle(antena, 0.0f, 0.0F, -0.8727F);
         }
         else{
             setRotationAngle(antena, 0.0F, 0F, 0.0F);

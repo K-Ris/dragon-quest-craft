@@ -91,6 +91,8 @@ public class Main
             event.getRegistry().register(MobEntities.BLUESLIME);
             event.getRegistry().register(MobEntities.BULLBIRD);
             event.getRegistry().register(MobEntities.CATFLY);
+            event.getRegistry().register(MobEntities.SPOTSLIME);
+            event.getRegistry().register(MobEntities.WINGSLIME);
         }
     }
 }

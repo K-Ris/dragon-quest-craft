@@ -46,6 +46,18 @@ public class MobEntities {
             .setShouldReceiveVelocityUpdates(false)
             .build("catfly")
             .setRegistryName(Main.MODID, "catfly");
+    @ObjectHolder("dragonquestcraft:spotslime")
+    public static EntityType<SpotSlimeEntity> SPOTSLIME = (EntityType<SpotSlimeEntity>) EntityType.Builder.create(SpotSlimeEntity::new, EntityClassification.CREATURE)
+            .size(1, 1)
+            .setShouldReceiveVelocityUpdates(false)
+            .build("spotslime")
+            .setRegistryName(Main.MODID, "spotslime");
+    @ObjectHolder("dragonquestcraft:wingslime")
+    public static EntityType<WingSlimeEntity> WINGSLIME = (EntityType<WingSlimeEntity>) EntityType.Builder.create(WingSlimeEntity::new, EntityClassification.CREATURE)
+            .size(1, 1)
+            .setShouldReceiveVelocityUpdates(false)
+            .build("wingslime")
+            .setRegistryName(Main.MODID, "wingslime");
 
 
     public static void registerEntityWorldSpawns(){
