@@ -15,6 +15,7 @@ public class ClientProxy implements IProxy{
         RenderingRegistry.registerEntityRenderingHandler(CatflyEntity.class, CatflyRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(SpotSlimeEntity.class, SpotSlimeRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(WingSlimeEntity.class, WingSlimeRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(PickyEntity.class, PickyRenderer::new);
     }
 
     @Override

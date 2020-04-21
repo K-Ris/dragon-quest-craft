@@ -1,19 +1,17 @@
 package at.chaotistin.dragonquestcraft.entities;
 
-import at.chaotistin.dragonquestcraft.CustomDamageSource;
+import at.chaotistin.dragonquestcraft.DragonQuestMonster;
 import at.chaotistin.dragonquestcraft.breeding.BreedingManager;
 import at.chaotistin.dragonquestcraft.breeding.CustomTameableEntity;
-import at.chaotistin.dragonquestcraft.DragonQuestMonster;
 import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
 import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LogBlock;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.controller.FlyingMovementController;
+import at.chaotistin.dragonquestcraft.registries.SoundsHandler;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.*;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,58 +19,37 @@ import net.minecraft.item.Items;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.FlyingPathNavigator;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
-import java.util.Random;
+public class PickyEntity extends CustomTameableEntity implements DragonQuestMonster {
 
-public class DrackyEntity extends CustomTameableEntity implements IFlyingAnimal, DragonQuestMonster {
+    private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(PickyEntity.class, DataSerializers.FLOAT);
 
-    private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(DrackyEntity.class, DataSerializers.FLOAT);
 
-    public float flap;
-    public float flapSpeed;
-    public float oFlapSpeed;
-    public float oFlap;
-    public float flapping = 1.0F;
-    private boolean partyParrot;
-    private BlockPos jukeboxPosition;
-
-    public DrackyEntity(EntityType<? extends DrackyEntity> type, World worldIn) {
+    public PickyEntity(EntityType<? extends PickyEntity> type, World worldIn) {
         super(type, worldIn);
         this.setTamed(false);
-        this.entitySex = EntitySexes.FEMALE;//EntitySexes.getRandomSex();
-        this.moveController = new FlyingMovementController(this);
+        this.recalculateSize();
+        this.entitySex = EntitySexes.getRandomSex();
         this.entitySpecies = MonsterManager.EntitySpecies.BIRD;
-        this.entityName = MonsterManager.EntityName.DRACKY;
+        this.entityName = MonsterManager.EntityName.PICKY;
     }
 
     @Override
     protected void registerGoals(){
         this.sitGoal = new SitGoal(this);
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.2D));
         this.goalSelector.addGoal(1, this.sitGoal);
         this.goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2d, true));
-        this.goalSelector.addGoal(4, new FollowOwnerFlyingGoal(this, 1.5D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.1d, true));
         this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
         this.goalSelector.addGoal(5, new CustomBreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomFlyingGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new RandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        //this.goalSelector.addGoal(7, new FollowMobGoal(this, 1.0D, 3.0F, 7.0F));
-        //this.goalSelector.addGoal(7, new FollowMobGoal(this, 1.0D, 3.0F, 7.0F));
+        this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, (new HurtByTargetGoal(this)).setCallsForHelp());
@@ -90,39 +67,14 @@ public class DrackyEntity extends CustomTameableEntity implements IFlyingAnimal,
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue((double)0.3F);
-        this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue((double)0.3F);
         if (this.isTamed()) {
             this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
         } else {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
         }
 
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
-    }
-
-    protected PathNavigator createNavigator(World worldIn) {
-        FlyingPathNavigator flyingpathnavigator = new FlyingPathNavigator(this, worldIn);
-        flyingpathnavigator.setCanOpenDoors(false);
-        flyingpathnavigator.setCanSwim(true);
-        flyingpathnavigator.setCanEnterDoors(true);
-        return flyingpathnavigator;
-    }
-
-    protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
-        return sizeIn.height * 0.6F;
-    }
-
-    public static boolean func_223317_c(EntityType<ParrotEntity> p_223317_0_, IWorld p_223317_1_, SpawnReason p_223317_2_, BlockPos p_223317_3_, Random p_223317_4_) {
-        Block block = p_223317_1_.getBlockState(p_223317_3_.down()).getBlock();
-        return (block.isIn(BlockTags.LEAVES) || block == Blocks.GRASS_BLOCK || block instanceof LogBlock || block == Blocks.AIR) && p_223317_1_.getLightSubtracted(p_223317_3_, 0) > 8;
-    }
-
-    public void fall(float distance, float damageMultiplier) {
-    }
-
-    protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
     }
 
     public boolean processInteract(PlayerEntity player, Hand hand) {
@@ -186,6 +138,10 @@ public class DrackyEntity extends CustomTameableEntity implements IFlyingAnimal,
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
     }
 
+    public boolean canMateWith(AnimalEntity otherAnimal) {
+        return super.canMateWith(otherAnimal);
+    }
+
     public AnimalEntity createChild(AgeableEntity ageable) {
         AnimalEntity cte = BreedingManager.spawnMonsterChild(this, breedingPartner);
         breedingPartner.afterBreeding();
@@ -197,33 +153,16 @@ public class DrackyEntity extends CustomTameableEntity implements IFlyingAnimal,
         return super.isBreedingItem(stack);
     }
 
-    public boolean isFlying() {
-        return !this.onGround;
-    }
-
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_BAT_AMBIENT;
+        return SoundsHandler.ENTITY_PLATYPUNK_AMBIENT;
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_BAT_HURT;
+        return SoundsHandler.ENTITY_PLATYPUNK_HURT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_BAT_DEATH;
+        return SoundsHandler.ENTITY_PLATYPUNK_DEATH;
     }
 
-    //Controlls spawn behaviour (copy from monsterentity class)
-    public static boolean func_223325_c(EntityType<? extends AnimalEntity> p_223325_0_, IWorld p_223325_1_, SpawnReason p_223325_2_, BlockPos p_223325_3_, Random p_223325_4_) {
-        return p_223325_1_.getDifficulty() != Difficulty.PEACEFUL && func_223323_a(p_223325_1_, p_223325_3_, p_223325_4_) && func_223315_a(p_223325_0_, p_223325_1_, p_223325_2_, p_223325_3_, p_223325_4_);
-    }
-
-    public static boolean func_223323_a(IWorld p_223323_0_, BlockPos p_223323_1_, Random p_223323_2_) {
-        if (p_223323_0_.getLightFor(LightType.SKY, p_223323_1_) > p_223323_2_.nextInt(32)) {
-            return false;
-        } else {
-            int i = p_223323_0_.getWorld().isThundering() ? p_223323_0_.getNeighborAwareLightSubtracted(p_223323_1_, 10) : p_223323_0_.getLight(p_223323_1_);
-            return i <= p_223323_2_.nextInt(8);
-        }
-    }
 }

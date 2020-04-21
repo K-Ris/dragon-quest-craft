@@ -58,6 +58,12 @@ public class MobEntities {
             .setShouldReceiveVelocityUpdates(false)
             .build("wingslime")
             .setRegistryName(Main.MODID, "wingslime");
+    @ObjectHolder("dragonquestcraft:picky")
+    public static EntityType<PickyEntity> PICKY = (EntityType<PickyEntity>) EntityType.Builder.create(PickyEntity::new, EntityClassification.CREATURE)
+            .size(1, 1)
+            .setShouldReceiveVelocityUpdates(false)
+            .build("picky")
+            .setRegistryName(Main.MODID, "picky");
 
 
     public static void registerEntityWorldSpawns(){
