@@ -5,6 +5,7 @@ import at.chaotistin.dragonquestcraft.breeding.CustomTameableEntity;
 import at.chaotistin.dragonquestcraft.DragonQuestMonster;
 import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
 import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
+import at.chaotistin.dragonquestcraft.registries.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -30,6 +31,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
@@ -138,6 +140,11 @@ public class CatflyEntity extends CustomTameableEntity implements IFlyingAnimal,
 
                         this.heal((float)item.getFood().getHealing());
                         return true;
+                    }
+                }
+                else if(item == ModItems.LOVECRYSTAL){
+                    if (!this.world.isRemote) {
+                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
                     }
                 }
             }

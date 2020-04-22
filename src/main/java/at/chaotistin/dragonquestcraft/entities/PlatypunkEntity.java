@@ -6,6 +6,7 @@ import at.chaotistin.dragonquestcraft.breeding.CustomTameableEntity;
 import at.chaotistin.dragonquestcraft.DragonQuestMonster;
 import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
 import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
+import at.chaotistin.dragonquestcraft.registries.ModItems;
 import at.chaotistin.dragonquestcraft.registries.SoundsHandler;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
@@ -20,12 +21,16 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.ForgeEventFactory;
 
-public class PlatypunkEntity extends CustomTameableEntity implements DragonQuestMonster {
+public class PlatypunkEntity extends CustomTameableEntity{
 
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(PlatypunkEntity.class, DataSerializers.FLOAT);
-
 
     public PlatypunkEntity(EntityType<? extends PlatypunkEntity> type, World worldIn) {
         super(type, worldIn);
@@ -90,6 +95,11 @@ public class PlatypunkEntity extends CustomTameableEntity implements DragonQuest
                         return true;
                     }
                 }
+                else if(item == ModItems.LOVECRYSTAL){
+                    if (!this.world.isRemote) {
+                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
+                    }
+                }
             }
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)) {
@@ -104,7 +114,7 @@ public class PlatypunkEntity extends CustomTameableEntity implements DragonQuest
             }
 
             if (!this.world.isRemote) {
-                if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
+                if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
                     this.setTamedBy(player);
                     this.navigator.clearPath();
                     this.setAttackTarget((LivingEntity)null);
@@ -112,6 +122,7 @@ public class PlatypunkEntity extends CustomTameableEntity implements DragonQuest
                     this.setHealth(20.0F);
                     this.playTameEffect(true);
                     this.world.setEntityState(this, (byte)7);
+                    System.out.println(this.entitySex.toString());
                 } else {
                     this.playTameEffect(false);
                     this.world.setEntityState(this, (byte)6);

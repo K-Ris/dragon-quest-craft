@@ -3,6 +3,7 @@ package at.chaotistin.dragonquestcraft.entities;
 import at.chaotistin.dragonquestcraft.breeding.BreedingManager;
 import at.chaotistin.dragonquestcraft.breeding.CustomTameableEntity;
 import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
+import at.chaotistin.dragonquestcraft.registries.ModItems;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -21,6 +22,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class SpotSlimeEntity extends CustomTameableEntity implements IMob {
@@ -84,6 +86,11 @@ public class SpotSlimeEntity extends CustomTameableEntity implements IMob {
 
                         this.heal((float)item.getFood().getHealing());
                         return true;
+                    }
+                }
+                else if(item == ModItems.LOVECRYSTAL){
+                    if (!this.world.isRemote) {
+                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
                     }
                 }
             }

@@ -4,6 +4,7 @@ import at.chaotistin.dragonquestcraft.breeding.BreedingManager;
 import at.chaotistin.dragonquestcraft.breeding.CustomTameableEntity;
 import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
 import at.chaotistin.dragonquestcraft.goals.CustomBreedGoal;
+import at.chaotistin.dragonquestcraft.registries.ModItems;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.IMob;
@@ -19,6 +20,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class BlueSlimeEntity extends CustomTameableEntity implements IMob {
@@ -28,7 +30,7 @@ public class BlueSlimeEntity extends CustomTameableEntity implements IMob {
         super(type, worldIn);
         this.setTamed(false);
         this.recalculateSize();
-        this.entitySex = EntitySexes.MALE;//EntitySexes.getRandomSex();
+        this.entitySex = EntitySexes.getRandomSex();
         this.entitySpecies = MonsterManager.EntitySpecies.SLIME;
         this.entityName = MonsterManager.EntityName.BLUESLIME;
     }
@@ -85,6 +87,11 @@ public class BlueSlimeEntity extends CustomTameableEntity implements IMob {
 
                         this.heal((float)item.getFood().getHealing());
                         return true;
+                    }
+                }
+                else if(item == ModItems.LOVECRYSTAL){
+                    if (!this.world.isRemote) {
+                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
                     }
                 }
             }

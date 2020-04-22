@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X X",
+    "XZX",
+    " Y "
+  ],
+  "key": {
+    "Y": {
+      "item": "minecraft:poppy"
+    },
+    "X": {
+      "item": "minecraft:gold_nugget"
+    },
+    "Z": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "dragonquestcraft:lovecrystal"
+  }
+}

@@ -3,6 +3,7 @@ package at.chaotistin.dragonquestcraft.entities;
 import at.chaotistin.dragonquestcraft.breeding.BreedingManager;
 import at.chaotistin.dragonquestcraft.breeding.CustomTameableEntity;
 import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
+import at.chaotistin.dragonquestcraft.registries.ModItems;
 import at.chaotistin.dragonquestcraft.registries.SoundsHandler;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
@@ -18,6 +19,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 import java.util.UUID;
@@ -86,6 +88,11 @@ public class BullBirdEntity  extends CustomTameableEntity {
 
                         this.heal((float)item.getFood().getHealing());
                         return true;
+                    }
+                }
+                else if(item == ModItems.LOVECRYSTAL){
+                    if (!this.world.isRemote) {
+                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
                     }
                 }
             }

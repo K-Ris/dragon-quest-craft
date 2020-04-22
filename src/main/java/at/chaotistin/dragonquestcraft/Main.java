@@ -1,6 +1,7 @@
 package at.chaotistin.dragonquestcraft;
 
 import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
+import at.chaotistin.dragonquestcraft.items.LoveCrystalItem;
 import at.chaotistin.dragonquestcraft.items.spawneggs.BlueslimeEggItem;
 import at.chaotistin.dragonquestcraft.items.spawneggs.DrackyEggItem;
 import at.chaotistin.dragonquestcraft.items.spawneggs.PlatypunkEggItem;
@@ -81,6 +82,8 @@ public class Main
             event.getRegistry().register(new PlatypunkEggItem());
             event.getRegistry().register(new DrackyEggItem());
             event.getRegistry().register(new BlueslimeEggItem());
+
+            event.getRegistry().register(new LoveCrystalItem());
 
             MobEntities.registerEntityWorldSpawns();
         }
