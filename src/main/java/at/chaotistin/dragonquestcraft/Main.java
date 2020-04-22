@@ -97,6 +97,7 @@ public class Main
             event.getRegistry().register(MobEntities.SPOTSLIME);
             event.getRegistry().register(MobEntities.WINGSLIME);
             event.getRegistry().register(MobEntities.PICKY);
+            event.getRegistry().register(MobEntities.TONGUELLA);
         }
     }
 }

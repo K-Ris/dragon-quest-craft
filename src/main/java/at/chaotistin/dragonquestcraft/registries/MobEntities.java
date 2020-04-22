@@ -64,6 +64,12 @@ public class MobEntities {
             .setShouldReceiveVelocityUpdates(false)
             .build("picky")
             .setRegistryName(Main.MODID, "picky");
+    @ObjectHolder("dragonquestcraft:tonguella")
+    public static EntityType<TonguellaEntity> TONGUELLA = (EntityType<TonguellaEntity>) EntityType.Builder.create(TonguellaEntity::new, EntityClassification.CREATURE)
+            .size(1, 1)
+            .setShouldReceiveVelocityUpdates(false)
+            .build("tonguella")
+            .setRegistryName(Main.MODID, "tonguella");
 
 
     public static void registerEntityWorldSpawns(){
