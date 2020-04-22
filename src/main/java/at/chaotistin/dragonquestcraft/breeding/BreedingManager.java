@@ -59,6 +59,9 @@ public class BreedingManager {
         else if(breedingResult == MonsterManager.EntityName.PICKY){
             child = MobEntities.PICKY.create(mommy.world);
         }
+        else if(breedingResult == MonsterManager.EntityName.TONGUELLA){
+            child = MobEntities.TONGUELLA.create(mommy.world);
+        }
 
         //Breeding Rules
         //- Same & Same = Same

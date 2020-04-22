@@ -1,5 +1,6 @@
 package at.chaotistin.dragonquestcraft.entities;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.client.renderer.model.ModelBox;
@@ -83,14 +84,33 @@ public class TonguellaModel extends EntityModel<TonguellaEntity> {
     }
 
     @Override
-    public void render(TonguellaEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        body.render(f5);
-        head.render(f5);
-        tail.render(f5);
-        arm_right.render(f5);
-        arm_left.render(f5);
-        leg_right.render(f5);
-        leg_left.render(f5);
+    public void render(TonguellaEntity entity, float f0, float f1, float f2, float f3, float f4, float f5) {
+        if(this.isChild){
+            float f = 2.0F;
+            GlStateManager.pushMatrix();
+            GlStateManager.translatef(0.0F, 5.0F * f5, 2.0F * f5);
+            this.head.render(f5);
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+            GlStateManager.translatef(0.0F, 24.0F * f5, 0.0F);
+            this.body.render(f5);
+            this.tail.render(f5);
+            this.leg_right.render(f5);
+            this.leg_left.render(f5);
+            this.arm_right.render(f5);
+            this.arm_left.render(f5);
+            GlStateManager.popMatrix();
+        }else{
+            body.render(f5);
+            head.render(f5);
+            tail.render(f5);
+            arm_right.render(f5);
+            arm_left.render(f5);
+            leg_right.render(f5);
+            leg_left.render(f5);
+        }
+
     }
     public void setRotationAngle(RendererModel modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
@@ -103,6 +123,7 @@ public class TonguellaModel extends EntityModel<TonguellaEntity> {
         this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
         this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
         //this.main.rotateAngleX = ((float)Math.PI / 2F);
+        this.tail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.leg_left.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.leg_right.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
         this.arm_left.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.0F * limbSwingAmount;

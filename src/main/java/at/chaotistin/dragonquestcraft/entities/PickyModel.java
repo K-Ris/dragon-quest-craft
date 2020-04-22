@@ -139,6 +139,24 @@ public class PickyModel extends EntityModel<PickyEntity> {
         modelRenderer.rotateAngleZ = z;
     }
 
+    public void setLivingAnimations(PickyEntity entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
+
+        if (entityIn.isSitting()) {
+            setRotationAngle(body, -0.1745F, 0.0F, 0.0F);
+            setRotationAngle(leg_left, 0.0F, -0.8727F, 0.0F);
+            setRotationAngle(wing_left, 0.3491F, -0.3491F, 1.309F);
+            setRotationAngle(leg_right, 0.0F, 0.8727F, 0.0F);
+            setRotationAngle(wing_right, 0.3491F, 0.3491F, -1.309F);
+        }
+        else{
+            setRotationAngle(body, 0.0F, 0.0F, 0.0F);
+            setRotationAngle(leg_left, 0.0F, 0F, 0.0F);
+            setRotationAngle(wing_left, 0.0F, 0.8727F, 0.8727F);
+            setRotationAngle(wing_right, 0.0F, -0.9599F, -0.8727F);
+            setRotationAngle(leg_right, 0F, 0F, 0F);
+        }
+    }
+
     @Override
     public void setRotationAngles(PickyEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);

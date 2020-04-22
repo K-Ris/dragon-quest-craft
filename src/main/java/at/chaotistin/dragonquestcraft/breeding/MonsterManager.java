@@ -58,6 +58,8 @@ public class MonsterManager {
                 breedingResult = EntityName.WINGSLIME;
             }else if(motherSpecies == EntitySpecies.BIRD && fatherSpecies == EntitySpecies.SLIME){
                 breedingResult = EntityName.PICKY;
+            }else if(motherSpecies == EntitySpecies.BEAST && fatherSpecies == EntitySpecies.SLIME){
+                breedingResult = EntityName.TONGUELLA;
             }
             else{
                 return breedingResult;
