@@ -2,9 +2,7 @@ package at.chaotistin.dragonquestcraft;
 
 import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
 import at.chaotistin.dragonquestcraft.items.LoveCrystalItem;
-import at.chaotistin.dragonquestcraft.items.spawneggs.BlueslimeEggItem;
-import at.chaotistin.dragonquestcraft.items.spawneggs.DrackyEggItem;
-import at.chaotistin.dragonquestcraft.items.spawneggs.PlatypunkEggItem;
+import at.chaotistin.dragonquestcraft.items.spawneggs.*;
 import at.chaotistin.dragonquestcraft.proxy.ClientProxy;
 import at.chaotistin.dragonquestcraft.proxy.IProxy;
 import at.chaotistin.dragonquestcraft.proxy.ServerProxy;
@@ -82,6 +80,12 @@ public class Main
             event.getRegistry().register(new PlatypunkEggItem());
             event.getRegistry().register(new DrackyEggItem());
             event.getRegistry().register(new BlueslimeEggItem());
+            event.getRegistry().register(new CatFlyEggItem());
+            event.getRegistry().register(new BullBirdEggItem());
+            event.getRegistry().register(new WingSlimeEggItem());
+            event.getRegistry().register(new PickyEggItem());
+            event.getRegistry().register(new SpotSlimeEggItem());
+            event.getRegistry().register(new TonguellaEggItem());
 
 //            event.getRegistry().register(new LoveCrystalItem());
 

@@ -22,6 +22,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -161,13 +162,13 @@ public class TonguellaEntity extends CustomTameableEntity {
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundsHandler.ENTITY_PLATYPUNK_AMBIENT;
+        return SoundEvents.ENTITY_PANDA_AMBIENT;
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundsHandler.ENTITY_PLATYPUNK_HURT;
+        return SoundEvents.ENTITY_PANDA_HURT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundsHandler.ENTITY_PLATYPUNK_DEATH;
+        return SoundEvents.ENTITY_PANDA_DEATH;
     }}
