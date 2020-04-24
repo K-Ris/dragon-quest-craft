@@ -35,7 +35,7 @@ public class PickyEntity extends CustomTameableEntity implements DragonQuestMons
         super(type, worldIn);
         this.setTamed(false);
         this.recalculateSize();
-        this.entitySex = EntitySexes.getRandomSex();
+//        this.entitySex = EntitySexes.getRandomSex();
         this.entitySpecies = MonsterManager.EntitySpecies.BIRD;
         this.entityName = MonsterManager.EntityName.PICKY;
     }
@@ -94,11 +94,11 @@ public class PickyEntity extends CustomTameableEntity implements DragonQuestMons
                         return true;
                     }
                 }
-                else if(item == ModItems.LOVECRYSTAL){
-                    if (!this.world.isRemote) {
-                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
-                    }
-                }
+//                else if(item == ModItems.LOVECRYSTAL){
+//                    if (!this.world.isRemote) {
+//                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
+//                    }
+//                }
             }
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)) {

@@ -32,7 +32,7 @@ public class BullBirdEntity  extends CustomTameableEntity {
         super(type, worldIn);
         this.setTamed(false);
         this.recalculateSize();
-        this.entitySex = EntitySexes.getRandomSex();
+//        this.entitySex = EntitySexes.getRandomSex();
         this.entitySpecies = MonsterManager.EntitySpecies.SLIME;
         this.entityName = MonsterManager.EntityName.BLUESLIME;
     }
@@ -90,11 +90,11 @@ public class BullBirdEntity  extends CustomTameableEntity {
                         return true;
                     }
                 }
-                else if(item == ModItems.LOVECRYSTAL){
-                    if (!this.world.isRemote) {
-                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
-                    }
-                }
+//                else if(item == ModItems.LOVECRYSTAL){
+//                    if (!this.world.isRemote) {
+//                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
+//                    }
+//                }
             }
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)) {

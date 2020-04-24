@@ -53,7 +53,7 @@ public class DrackyEntity extends CustomTameableEntity implements IFlyingAnimal,
     public DrackyEntity(EntityType<? extends DrackyEntity> type, World worldIn) {
         super(type, worldIn);
         this.setTamed(false);
-        this.entitySex = EntitySexes.getRandomSex();
+//        this.entitySex = EntitySexes.getRandomSex();
         this.moveController = new FlyingMovementController(this);
         this.entitySpecies = MonsterManager.EntitySpecies.BIRD;
         this.entityName = MonsterManager.EntityName.DRACKY;
@@ -142,11 +142,11 @@ public class DrackyEntity extends CustomTameableEntity implements IFlyingAnimal,
                         return true;
                     }
                 }
-                else if(item == ModItems.LOVECRYSTAL){
-                    if (!this.world.isRemote) {
-                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
-                    }
-                }
+//                else if(item == ModItems.LOVECRYSTAL){
+//                    if (!this.world.isRemote) {
+//                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
+//                    }
+//                }
             }
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)) {

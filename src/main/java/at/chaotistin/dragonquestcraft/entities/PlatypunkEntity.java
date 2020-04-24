@@ -21,6 +21,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
@@ -32,11 +33,12 @@ public class PlatypunkEntity extends CustomTameableEntity{
 
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(PlatypunkEntity.class, DataSerializers.FLOAT);
 
+
     public PlatypunkEntity(EntityType<? extends PlatypunkEntity> type, World worldIn) {
         super(type, worldIn);
         this.setTamed(false);
         this.recalculateSize();
-        this.entitySex = EntitySexes.getRandomSex();
+        //this.entitySex = EntitySexes.getRandomSex();
         this.entitySpecies = MonsterManager.EntitySpecies.BEAST;
         this.entityName = MonsterManager.EntityName.PLATYPUNK;
     }
@@ -67,6 +69,7 @@ public class PlatypunkEntity extends CustomTameableEntity{
         this.dataManager.register(DATA_HEALTH_ID, this.getHealth());
     }
 
+
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
@@ -95,11 +98,11 @@ public class PlatypunkEntity extends CustomTameableEntity{
                         return true;
                     }
                 }
-                else if(item == ModItems.LOVECRYSTAL){
-                    if (!this.world.isRemote) {
-                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
-                    }
-                }
+//                else if(item == ModItems.LOVECRYSTAL){
+//                    if (!this.world.isRemote) {
+//                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
+//                    }
+//                }
             }
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)) {
@@ -122,7 +125,6 @@ public class PlatypunkEntity extends CustomTameableEntity{
                     this.setHealth(20.0F);
                     this.playTameEffect(true);
                     this.world.setEntityState(this, (byte)7);
-                    System.out.println(this.entitySex.toString());
                 } else {
                     this.playTameEffect(false);
                     this.world.setEntityState(this, (byte)6);

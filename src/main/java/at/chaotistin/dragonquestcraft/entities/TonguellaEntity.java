@@ -34,7 +34,7 @@ public class TonguellaEntity extends CustomTameableEntity {
         super(type, worldIn);
         this.setTamed(false);
         this.recalculateSize();
-        this.entitySex = EntitySexes.getRandomSex();
+//        this.entitySex = EntitySexes.getRandomSex();
         this.entitySpecies = MonsterManager.EntitySpecies.BEAST;
         this.entityName = MonsterManager.EntityName.TONGUELLA;
     }
@@ -93,11 +93,11 @@ public class TonguellaEntity extends CustomTameableEntity {
                         return true;
                     }
                 }
-                else if(item == ModItems.LOVECRYSTAL){
-                    if (!this.world.isRemote) {
-                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
-                    }
-                }
+//                else if(item == ModItems.LOVECRYSTAL){
+//                    if (!this.world.isRemote) {
+//                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
+//                    }
+//                }
             }
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)) {
@@ -120,7 +120,7 @@ public class TonguellaEntity extends CustomTameableEntity {
                     this.setHealth(20.0F);
                     this.playTameEffect(true);
                     this.world.setEntityState(this, (byte)7);
-                    System.out.println(this.entitySex.toString());
+//                    System.out.println(this.entitySex.toString());
                 } else {
                     this.playTameEffect(false);
                     this.world.setEntityState(this, (byte)6);

@@ -42,7 +42,7 @@ public class WingSlimeEntity extends CustomTameableEntity implements IMob {
     public WingSlimeEntity(EntityType<? extends WingSlimeEntity> type, World worldIn) {
         super(type, worldIn);
         this.setTamed(false);
-        this.entitySex = EntitySexes.getRandomSex();
+//        this.entitySex = EntitySexes.getRandomSex();
         this.moveController = new FlyingMovementController(this);
         this.entitySpecies = MonsterManager.EntitySpecies.SLIME;
         this.entityName = MonsterManager.EntityName.WINGSLIME;
@@ -131,11 +131,11 @@ public class WingSlimeEntity extends CustomTameableEntity implements IMob {
                         return true;
                     }
                 }
-                else if(item == ModItems.LOVECRYSTAL){
-                    if (!this.world.isRemote) {
-                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
-                    }
-                }
+//                else if(item == ModItems.LOVECRYSTAL){
+//                    if (!this.world.isRemote) {
+//                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
+//                    }
+//                }
             }
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)) {

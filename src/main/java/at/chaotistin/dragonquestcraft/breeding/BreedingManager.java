@@ -15,11 +15,13 @@ public class BreedingManager {
 //        CustomTameableEntity.EntitySpecies babySpecies;
         CustomTameableEntity babyEntity;
 
-        if(entity.entitySex == CustomTameableEntity.EntitySexes.FEMALE) {
-            babyEntity = getChildMonster(entity, otherEntity);
-        }else{
-            babyEntity = getChildMonster(otherEntity, entity);
-        }
+//        if(entity.entitySex == CustomTameableEntity.EntitySexes.FEMALE) {
+//            babyEntity = getChildMonster(entity, otherEntity);
+//        }else{
+//            babyEntity = getChildMonster(otherEntity, entity);
+//        }
+
+        babyEntity = getChildMonster(entity, otherEntity);
 
         UUID uuid = entity.getOwnerId();
         if (uuid != null) {
@@ -61,6 +63,12 @@ public class BreedingManager {
         }
         else if(breedingResult == MonsterManager.EntityName.TONGUELLA){
             child = MobEntities.TONGUELLA.create(mommy.world);
+        }
+        else if(breedingResult == MonsterManager.EntityName.CATFLY){
+            child = MobEntities.CATFLY.create(mommy.world);
+        }
+        else if(breedingResult == MonsterManager.EntityName.WINGSLIME){
+            child = MobEntities.WINGSLIME.create(mommy.world);
         }
 
         //Breeding Rules

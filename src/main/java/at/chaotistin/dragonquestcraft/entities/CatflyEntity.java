@@ -53,7 +53,7 @@ public class CatflyEntity extends CustomTameableEntity implements IFlyingAnimal,
         super(type, worldIn);
         this.setTamed(false);
         this.moveController = new FlyingMovementController(this);
-        this.entitySex = EntitySexes.getRandomSex();
+//        this.entitySex = EntitySexes.getRandomSex();
         this.moveController = new FlyingMovementController(this);
         this.entitySpecies = MonsterManager.EntitySpecies.BIRD;
         this.entityName = MonsterManager.EntityName.DRACKY;
@@ -142,11 +142,11 @@ public class CatflyEntity extends CustomTameableEntity implements IFlyingAnimal,
                         return true;
                     }
                 }
-                else if(item == ModItems.LOVECRYSTAL){
-                    if (!this.world.isRemote) {
-                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
-                    }
-                }
+//                else if(item == ModItems.LOVECRYSTAL){
+//                    if (!this.world.isRemote) {
+//                        player.sendMessage(new StringTextComponent("Your " + this.entityName.toString() + " is " + this.entitySex.toString()));
+//                    }
+//                }
             }
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)) {

@@ -2,6 +2,7 @@ package at.chaotistin.dragonquestcraft.breeding;
 
 import at.chaotistin.dragonquestcraft.CustomDamageSource;
 import at.chaotistin.dragonquestcraft.DragonQuestMonster;
+import at.chaotistin.dragonquestcraft.Main;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -17,7 +18,7 @@ import java.util.Random;
 public class CustomTameableEntity extends TameableEntity implements DragonQuestMonster {
 
     public CustomTameableEntity breedingPartner;
-    public EntitySexes entitySex = EntitySexes.FEMALE;
+    //public EntitySexes entitySex = EntitySexes.FEMALE;
     public MonsterManager.EntitySpecies entitySpecies = MonsterManager.EntitySpecies.SLIME;
     public MonsterManager.EntityName entityName = MonsterManager.EntityName.BLUESLIME;
 
@@ -27,20 +28,30 @@ public class CustomTameableEntity extends TameableEntity implements DragonQuestM
     }
 
     public boolean canMateWith(AnimalEntity otherAnimal) {
+        Main.LOGGER.warn("this Name: " + this.getName() + " " + this.isInLove() + " " +  this.isChild());
+        Main.LOGGER.warn("other Name: " + otherAnimal.getName() + " " + otherAnimal.isInLove() + " " +  otherAnimal.isChild());
         if (otherAnimal == this) {
             return false;
         } else if (!this.isTamed()) {
             return false;
         }else if(otherAnimal instanceof DragonQuestMonster){
-            breedingPartner = (CustomTameableEntity) otherAnimal;
-            if(this.entitySex != breedingPartner.entitySex)
+            if(!otherAnimal.isChild() && otherAnimal.isInLove() && this.isInLove()){
+                breedingPartner = (CustomTameableEntity) otherAnimal;
                 return this.isInLove() && otherAnimal.isInLove();
-            else
+            }
+            else{
                 return false;
+            }
+//            if(this.entitySex != breedingPartner.entitySex)
+//                return this.isInLove() && otherAnimal.isInLove();
+//            else
+//                return false;
         }else{
             return false;
         }
     }
+
+
 
     public AnimalEntity createChild(AgeableEntity ageable) {
 //        this.world.setEntityState(this.breedingPartner, (byte)3);
@@ -61,18 +72,18 @@ public class CustomTameableEntity extends TameableEntity implements DragonQuestM
         }
     }
 
-    public static enum EntitySexes{
-        MALE,
-        FEMALE;
-        //NEUTRAL;
-
-        public static EntitySexes getRandomSex() {
-            Random random = new Random();
-            EntitySexes sex = values()[random.nextInt(values().length)];
-//            if (sex == EntitySexes.NEUTRAL)
-//                sex = values()[random.nextInt(values().length)];
-            return sex;
-        }
-    }
+//    public static enum EntitySexes{
+//        MALE,
+//        FEMALE;
+//        //NEUTRAL;
+//
+//        public static EntitySexes getRandomSex() {
+//            Random random = new Random();
+//            EntitySexes sex = values()[random.nextInt(values().length)];
+////            if (sex == EntitySexes.NEUTRAL)
+////                sex = values()[random.nextInt(values().length)];
+//            return sex;
+//        }
+//    }
 
 }

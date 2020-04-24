@@ -1,5 +1,7 @@
 package at.chaotistin.dragonquestcraft.breeding;
 
+import at.chaotistin.dragonquestcraft.Main;
+
 import java.util.*;
 
 public class MonsterManager {
@@ -38,6 +40,9 @@ public class MonsterManager {
 
     public EntityName getBreedingResult(EntityName mother, EntityName father){
 
+        Main.LOGGER.warn("Breeding Entity Name: " + mother);
+        Main.LOGGER.warn("Breeding Other Name: " + father);
+
         EntityName breedingResult = mother;
 
         if(mother == father) {
@@ -45,6 +50,9 @@ public class MonsterManager {
         }else{
             EntitySpecies motherSpecies = dqm_monsterList.get(mother);
             EntitySpecies fatherSpecies = dqm_monsterList.get(father);
+
+            Main.LOGGER.warn("mommy species breed: " + motherSpecies);
+            Main.LOGGER.warn("daddy species breed: " + fatherSpecies);
             if(motherSpecies == fatherSpecies){
                 return breedingResult;
             }
