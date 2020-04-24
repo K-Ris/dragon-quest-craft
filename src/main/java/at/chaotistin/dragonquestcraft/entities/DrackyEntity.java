@@ -187,7 +187,7 @@ public class DrackyEntity extends CustomTameableEntity implements IFlyingAnimal,
         if (tamed) {
             this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
         } else {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
         }
 
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);

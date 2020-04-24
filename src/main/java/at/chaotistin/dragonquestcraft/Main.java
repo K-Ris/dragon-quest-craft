@@ -83,7 +83,7 @@ public class Main
             event.getRegistry().register(new DrackyEggItem());
             event.getRegistry().register(new BlueslimeEggItem());
 
-            event.getRegistry().register(new LoveCrystalItem());
+//            event.getRegistry().register(new LoveCrystalItem());
 
             MobEntities.registerEntityWorldSpawns();
         }

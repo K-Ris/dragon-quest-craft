@@ -23,6 +23,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
@@ -71,12 +72,12 @@ public class PickyEntity extends CustomTameableEntity implements DragonQuestMons
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue((double)0.3F);
         if (this.isTamed()) {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25.0D);
         } else {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
         }
 
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
     }
 
     public boolean processInteract(PlayerEntity player, Hand hand) {
@@ -161,15 +162,15 @@ public class PickyEntity extends CustomTameableEntity implements DragonQuestMons
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundsHandler.ENTITY_PLATYPUNK_AMBIENT;
+        return SoundEvents.ENTITY_PARROT_AMBIENT;
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundsHandler.ENTITY_PLATYPUNK_HURT;
+        return SoundEvents.ENTITY_PARROT_HURT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundsHandler.ENTITY_PLATYPUNK_DEATH;
+        return SoundEvents.ENTITY_PARROT_DEATH;
     }
 
 }

@@ -8,6 +8,12 @@
   "entity.dragonquestcraft.platypunk": "Platypunk",
   "entity.dragonquestcraft.dracky": "Dracky",
   "entity.dragonquestcraft.blueslime": "Slime",
+  "entity.dragonquestcraft.catfly": "Catfly",
+  "entity.dragonquestcraft.tonguella": "Tonguella",
+  "entity.dragonquestcraft.bullbird": "Bullbird",
+  "entity.dragonquestcraft.picky": "Picky",
+  "entity.dragonquestcraft.spotslime": "Spotslime",
+  "entity.dragonquestcraft.wingslime": "Wingslime",
 
   "death.attack.dragonquestcraft.breedingmsg":"%1$s quietly left..."
 }
