@@ -139,9 +139,9 @@ public class TonguellaModel extends EntityModel<TonguellaEntity> {
 
         if (entityIn.isSitting()) {
             setRotationAngle(leg_left, 0.0F, -0.8727F, 0.0F);
-            setRotationAngle(arm_left, -0.5236F, 2.269F, -0.6981F);
+            setRotationAngle(arm_left, -0.5236F, 1.269F, -0.6981F);
             setRotationAngle(leg_right, 0.0F, 0.8727F, 0.0F);
-            setRotationAngle(arm_right, -0.5236F, -2.2689F, 0.6981F);
+            setRotationAngle(arm_right, -0.5236F, -1.2689F, 0.6981F);
         }
         else{
             setRotationAngle(leg_left, 0.0F, 0F, 0.0F);

@@ -73,9 +73,9 @@ public class MobEntities {
 
 
     public static void registerEntityWorldSpawns(){
-        registerEntityWorldSpawn(PLATYPUNK, Biomes.FOREST, Biomes.RIVER, Biomes.WOODED_HILLS );
-        registerEntityWorldSpawn(DRACKY, Biomes.FOREST, Biomes.WOODED_HILLS, Biomes.MOUNTAINS);
-        registerEntityWorldSpawn(BLUESLIME, Biomes.PLAINS, Biomes.WOODED_HILLS);
+        registerEntityWorldSpawn(PLATYPUNK, Biomes.RIVER, Biomes.MOUNTAINS, Biomes.BIRCH_FOREST, Biomes.BIRCH_FOREST_HILLS, Biomes.TALL_BIRCH_FOREST );
+        registerEntityWorldSpawn(DRACKY, Biomes.FOREST, Biomes.WOODED_HILLS, Biomes.MOUNTAINS, Biomes.MOUNTAIN_EDGE, Biomes.DARK_FOREST, Biomes.DARK_FOREST_HILLS);
+        registerEntityWorldSpawn(BLUESLIME, Biomes.PLAINS, Biomes.SWAMP, Biomes.SAVANNA_PLATEAU, Biomes.BADLANDS_PLATEAU, Biomes.SUNFLOWER_PLAINS, Biomes.WOODED_BADLANDS_PLATEAU);
 
         EntitySpawnPlacementRegistry.register(DRACKY, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DrackyEntity::func_223325_c);
 

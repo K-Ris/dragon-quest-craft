@@ -2,6 +2,7 @@ package at.chaotistin.dragonquestcraft;
 
 import at.chaotistin.dragonquestcraft.breeding.MonsterManager;
 import at.chaotistin.dragonquestcraft.items.LoveCrystalItem;
+import at.chaotistin.dragonquestcraft.items.ModItem;
 import at.chaotistin.dragonquestcraft.items.spawneggs.*;
 import at.chaotistin.dragonquestcraft.proxy.ClientProxy;
 import at.chaotistin.dragonquestcraft.proxy.IProxy;
@@ -86,7 +87,7 @@ public class Main
             event.getRegistry().register(new PickyEggItem());
             event.getRegistry().register(new SpotSlimeEggItem());
             event.getRegistry().register(new TonguellaEggItem());
-
+            event.getRegistry().register(new ModItem());
 //            event.getRegistry().register(new LoveCrystalItem());
 
             MobEntities.registerEntityWorldSpawns();

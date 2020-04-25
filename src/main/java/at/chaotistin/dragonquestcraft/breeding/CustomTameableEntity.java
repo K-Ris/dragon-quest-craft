@@ -62,7 +62,7 @@ public class CustomTameableEntity extends TameableEntity implements DragonQuestM
 
     public boolean isBreedingItem(ItemStack stack) {
         Item item = stack.getItem();
-        return stack.getItem() == Items.WHEAT;
+        return stack.getItem() == Items.GOLDEN_APPLE;
     }
 
     public void afterBreeding(){
